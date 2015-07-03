@@ -1,0 +1,16 @@
+<div>
+    <script type="text/ng-template" id="newPaletteDialog.tmpl.html">
+        <div class="modal-header">
+            <h4>あたらしいパレット</h4>
+        </div>
+        <div class="modal-body">
+            <form>
+                <input type="radio" name="paletteType" ng-model="paletteType" value="SQUARE">しかく<br/>
+                <input type="radio" name="paletteType" ng-model="paletteType" value="CIRCLE">まる<br/>
+                <br/>
+                <input type="button" class="btn btn-default" value="OK" ng-click="ok()"/>
+                <input type="button" class="btn btn-default" value="キャンセル" ng-click="cancel()"/>
+            </form>
+        </div>
+    </script>
+</div>

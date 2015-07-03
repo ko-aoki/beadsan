@@ -1,0 +1,19 @@
+<div>
+<script type="text/ng-template" id="login.tmpl.html">
+    <div class="modal-header">
+        <h4>ログイン</h4>
+    </div>
+    <div class="modal-body">
+        <span>{{message}}</span>
+        <br/>
+        <label>メールアドレス</label>
+        <input type="text" class="form-control" ng-model="mailAddress">
+        <br/>
+        <label>パスワード</label>
+        <input type="password" class="form-control" ng-model="password">
+        <br/>
+        <input type="button" class="btn btn-info" value="ログイン" ng-click="login()"/>
+        <input type="button" class="btn btn-default" value="cancel" ng-click="cancel()"/>
+    </div>
+</script>
+</div>
