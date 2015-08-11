@@ -5,7 +5,7 @@
     <!-- omitted -->
     <mapping type="one-way" wildcard="false">
         <class-a>org.springframework.data.domain.Page</class-a>
-        <class-b>beadsan.dto.PageDto</class-b>
+        <class-b>beadsan.dto.PaginationDto</class-b>
 		<field> 
 		  <a get-method="getTotalPages">totalPages</a> 
 		  <b>totalPages</b> 

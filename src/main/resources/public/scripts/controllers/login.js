@@ -1,19 +1,25 @@
 angular.module('perlerbeadsApp')
-    .controller('LoginCtrl', ['$scope', 'loginResource', '$modalInstance',
-        function ($scope, loginResource, $modalInstance) {
-            $scope.login = function() {
-                loginResource.login(
-                    {'mailAddress': $scope.mailAddress, 'password': $scope.password},
+    .controller('LoginCtrl', ['$scope', 'loginHttp', '$modalInstance',
+        function ($scope, loginHttp, $modalInstance) {
+            $scope.login = function () {
+                loginHttp.login({
+                    mailAddress: $scope.loginDto.mailAddress,
+                    password: $scope.loginDto.password
+                })
+                .success(
                     function (data) {
-                        $scope.logined = data.logined;
-                        $scope.message = data.message;
-                        if (data.logined) {
-                            $modalInstance.close(data);
-                        }
+                        $scope.loginDto = data.loginDto;
+                        $modalInstance.close(data.headerDto);
                     }
-                );
-            };
-            $scope.cancel = function() {
+                )
+                .error(
+                    function (data) {
+                        $scope.loginDto = data.loginDto;
+                    }
+                )
+            }
+
+            $scope.cancel = function () {
                 $modalInstance.close();
             }
         }]);

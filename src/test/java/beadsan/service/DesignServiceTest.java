@@ -11,7 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import beadsan.App;
 import beadsan.dto.DesignDto;
-import beadsan.dto.PageDto;
+import beadsan.dto.PaginationDto;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
@@ -27,7 +27,7 @@ public class DesignServiceTest {
 
 	@Test
 	public void testFindDesignsByUserId() {
-		PageDto<DesignDto> design = designService.findDesignsByUserId(1, 0, 2);
+		PaginationDto<DesignDto> design = designService.findDesignsByUserId(1, 0, 2);
 
 		System.out.println(design);
 	}

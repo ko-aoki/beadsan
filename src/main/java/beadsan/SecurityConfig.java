@@ -1,24 +1,54 @@
 package beadsan;
 
 import beadsan.filter.CsrfHeaderFilter;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import beadsan.security.BeadsanAuthSuccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Pattern;
 
 @Configuration
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Resource(name="beadsanAuthService")
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // http://stackoverflow.com/questions/22524470/spring-security-3-2-csrf-disable-for-specfic-urls
+        // Build the request matcher for CSFR protection
+        RequestMatcher csrfRequestMatcher = new RequestMatcher() {
+
+            // Disable CSFR protection on the following urls:
+            private AntPathRequestMatcher[] requestMatchers = {
+                    new AntPathRequestMatcher("/api/login")
+            };
+
+            @Override
+            public boolean matches(HttpServletRequest request) {
+                // If the request match one url the CSFR protection will be disabled
+                for (AntPathRequestMatcher rm : requestMatchers) {
+                    if (rm.matches(request)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+
         http.authorizeRequests()
                 .antMatchers(
-                        "/bower_component/**/*",
+                        "/bower_components/**/*",
                         "/images/**",
                         "/scripts/**",
                         "/scripts/**/*",
@@ -26,13 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/views/**",
                         "/index.html",
                         "/api/login"
-                )
-                .permitAll()
+                ).permitAll()
+                .anyRequest().authenticated()   //上記にマッチしなければ未認証エラー
                 .and()
-                .formLogin()
-                .and()
-                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-                .csrf().csrfTokenRepository(csrfTokenRepository());
+                .csrf()
+                .requireCsrfProtectionMatcher(csrfRequestMatcher)
+                .csrfTokenRepository(this.csrfTokenRepository());
     }
 
     private CsrfTokenRepository csrfTokenRepository() {

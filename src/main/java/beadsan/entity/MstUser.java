@@ -46,6 +46,8 @@ public class MstUser implements Serializable {
     @Basic(optional = false)
     @Column(name = "mst_user_id")
     private Integer mstUserId;
+    @Column(name = "password")
+    private String password;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -81,6 +83,13 @@ public class MstUser implements Serializable {
         this.mstUserId = mstUserId;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -170,5 +179,5 @@ public class MstUser implements Serializable {
     public String toString() {
         return "beadsan.entity.MstUser[ mstUserId=" + mstUserId + " ]";
     }
-    
+
 }

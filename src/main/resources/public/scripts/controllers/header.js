@@ -1,22 +1,26 @@
 angular.module('perlerbeadsApp')
-    .controller('HeaderCtrl', ['$scope', '$modal',
-        function ($scope, $modal) {
+    .controller('HeaderCtrl', ['$scope', '$modal', 'loginHttp',
+        function ($scope, $modal, loginHttp) {
             $scope.logined = false;
             $scope.loginDialog = function () {
                 var modalInstance = $modal.open({
                     size: 'sm',
                     templateUrl: 'login.tmpl.html',
-                    controller: 'LoginCtrl',
-                    resolve: {
-                        userId: function () {
-                            return $scope.userId;
-                        }
-                    }
+                    controller: 'LoginCtrl'
+                    //resolve: {
+                    //    headerDto: function () {
+                    //        return $scope.headerDto;
+                    //    }
+                    //}
                 });
                 modalInstance.result.then(function (data){
-                    $scope.userInfo = data;
+                    $scope.headerDto = data;
                 });
             };
 
+            $scope.logout = function () {
+                loginHttp.logout();
+                $scope.headerDto = {};
+            }
 
         }]);

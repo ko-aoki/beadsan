@@ -12,10 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import beadsan.dto.DesignDto;
-import beadsan.dto.PageDto;
+import beadsan.dto.PaginationDto;
 import beadsan.entity.TrnDesign;
 import beadsan.repository.DesignRepository;
-import beadsan.repository.UserRepository;
 
 @Service
 @Transactional
@@ -26,17 +25,17 @@ public class DesignService {
 	@Autowired
 	protected Mapper mapper;
 	
-	public PageDto<DesignDto> findDesignsByUserId(int userId, int curPage, int pageSize) {
+	public PaginationDto<DesignDto> findDesignsByUserId(int userId, int curPage, int pageSize) {
 		Page<TrnDesign> trnDesigns = designRepo.selectByMstUserIdOrderByUpdateDateAsc(new PageRequest(curPage, pageSize), userId);
-		PageDto<DesignDto> pageDto = mapper.map(trnDesigns, PageDto.class);
+		PaginationDto<DesignDto> paginationDto = mapper.map(trnDesigns, PaginationDto.class);
 		List<TrnDesign> contents = trnDesigns.getContent();
 		ArrayList<DesignDto> designs = new ArrayList<DesignDto>();
 		for (TrnDesign content : contents) {
 			DesignDto designDto = mapper.map(content, DesignDto.class);
 			designs.add(designDto);
 		}
-		pageDto.setContent(designs);
-		return pageDto;
+		paginationDto.setContent(designs);
+		return paginationDto;
 	}
 
     public TrnDesign create(TrnDesign design) {

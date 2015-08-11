@@ -14,20 +14,23 @@ angular.module('perlerbeadsApp')
       function load() {
         var itemSize = Math.floor($window.document.body.offsetWidth / 150);
         itemSize = itemSize > 4 ? 4 : itemSize;
-        savedRecs = beadDataService.load();
-        if (savedRecs !== null) {
-          for (var i = 0; i < savedRecs.length; i++) {
-            savedRecs[i].data = beadViewService.convert(savedRecs[i].paletteType, savedRecs[i].data, true, i, itemSize);
-          }
-        }
-        if (savedRecs !== null) {
-          $scope.page = {
-            itemSize: itemSize,
-            totalItems: savedRecs.length,
-            currentPage: 1
-          };
-          $scope.savedRecs = savedRecs.slice(0, $scope.page.itemSize);
-        }
+//        beadDataService.load().$promise.then(
+        beadDataService.load(
+            function(data) {
+              savedRecs = data;
+              if (savedRecs !== undefined) {
+                for (var i = 0; i < savedRecs.length; i++) {
+                  savedRecs[i].data = beadViewService.convert(savedRecs[i].paletteType, savedRecs[i].data, true, i, itemSize);
+                }
+                $scope.page = {
+                  itemSize: itemSize,
+                  totalItems: savedRecs.length,
+                  currentPage: 1
+                };
+                $scope.savedRecs = savedRecs.slice(0, $scope.page.itemSize);
+              }
+            }
+        );
       }
       load();
 

@@ -1,14 +1,21 @@
 package beadsan.service;
 
-import javax.transaction.Transactional;
-
+import beadsan.dto.HeaderDto;
+import beadsan.dto.LoginDto;
+import beadsan.dto.PageDto;
+import beadsan.repository.UserRepository;
+import beadsan.security.BeadsanUserDetails;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import beadsan.dto.LoginDto;
-import beadsan.entity.MstUser;
-import beadsan.repository.UserRepository;
+import javax.transaction.Transactional;
+import java.util.logging.Handler;
 
 /**
  * ログイン画面のサービスクラス.
@@ -18,27 +25,43 @@ import beadsan.repository.UserRepository;
 @Transactional
 public class LoginService {
 
-    @Autowired 
+    @Autowired
     private UserRepository userRepo;
+
     @Autowired
 	protected Mapper mapper;
+
+	@Autowired
+	private AuthenticationManager authManager;
 
     /**
      * ログイン処理を行います.
      * @return
      */
-    public LoginDto login(LoginDto loginDto) {
-    	MstUser mstUser = userRepo.findByMailAddress(loginDto.getMailAddress());
-    	LoginDto res = mapper.map(loginDto, LoginDto.class);
-    	if (mstUser != null) {
-        	res = mapper.map(mstUser, LoginDto.class);
-        	res.setLogined(true);
-    	} else {
-    		res.setLogined(false);
-    		res.setMessage("メールアドレスかパスワードがまちがっています。");
-    	}
-    	return res;
-    	
+    public PageDto login(LoginDto loginDto) {
+
+		PageDto pageDto = new PageDto();
+		LoginDto outLoginDto = mapper.map(loginDto, LoginDto.class);
+		pageDto.setLoginDto(outLoginDto);
+		HeaderDto headerDto = new HeaderDto();
+		pageDto.setHeaderDto(headerDto);
+
+		//Spring Security認証処理
+		Authentication authResult = null;
+		try {
+			Authentication request = new UsernamePasswordAuthenticationToken(
+					loginDto.getMailAddress(), loginDto.getPassword());
+			authResult = authManager.authenticate(request);
+			SecurityContextHolder.getContext().setAuthentication(authResult);
+			BeadsanUserDetails principal = (BeadsanUserDetails)authResult.getPrincipal();
+			headerDto.setNickName(principal.getUserInfo().getNickName());
+			headerDto.setAuth(true);
+
+		} catch(AuthenticationException e) {
+			outLoginDto.setMessage("メールアドレスかパスワードがまちがっています。");
+			headerDto.setAuth(false);
+		}
+		return pageDto;
     }
 
 }

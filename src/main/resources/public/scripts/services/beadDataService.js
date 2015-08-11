@@ -1,5 +1,5 @@
-angular.module('perlerbeadsApp').service('beadDataService', ['$resource', '$window','beadService',
-    function ($resource, $window, beadService) {
+angular.module('perlerbeadsApp').service('beadDataService', ['$window','beadService', 'beadResource',
+    function ($window, beadService, beadResource) {
         this.currentSave = function (name, paletteType, currentData) {
             $window.localStorage.setItem('CURRENT_DATA',
                 angular.toJson(
@@ -16,38 +16,23 @@ angular.module('perlerbeadsApp').service('beadDataService', ['$resource', '$wind
         };
 
         this.save = function (name, paletteType, data) {
-            var records = [];
-            if ($window.localStorage.getItem('PERSISTED_DATA') != null) {
-                records = angular.fromJson($window.localStorage.getItem('PERSISTED_DATA'));
-            }
             var persistingData = {
                 name: name,
                 paletteType: paletteType,
-                data: this.removePosition(data, beadService.getPalette(paletteType)),
-                updateDate: new Date()
+                data: this.removePosition(data, beadService.getPalette(paletteType))
             };
 
-            for (var i = 0; i < records.length; i++) {
-                var rec = records[i];
-                if (rec.name === name) {
-                    if ($window.confirm('「' + name + '」' + ' おなじなまえがあります。うわがきしますか？')) {
-                        records[i] = persistingData;
-                    }
-                    break;
-                }
-                if (i === records.length - 1) {
-                    records.push(persistingData);
-                    break;
+            var hasDuplicated = beadResource.hasDuplicated(name);
+            if (hasDuplicated) {
+                if (!$window.confirm('「' + name + '」' + ' おなじなまえがあります。うわがきしますか？')) {
+                    return;
                 }
             }
-            if (records.length < 1) {
-                records.push(persistingData);
-            }
-            $window.localStorage.setItem('PERSISTED_DATA', angular.toJson(records));
+            beadResource.post(persistingData);
         };
 
         this.load = function () {
-            return angular.fromJson($window.localStorage.getItem('PERSISTED_DATA'));
+            return beadResource.get();
         };
 
         this.deleteData = function (name) {
@@ -64,31 +49,6 @@ angular.module('perlerbeadsApp').service('beadDataService', ['$resource', '$wind
                 }
             }
             $window.localStorage.setItem('PERSISTED_DATA', angular.toJson(records));
-        };
-
-        this.getDataByName = function (name) {
-            var records = [];
-            if ($window.localStorage.getItem('PERSISTED_DATA') != null) {
-                records = angular.fromJson($window.localStorage.getItem('PERSISTED_DATA'));
-            }
-            for (var i = 0; i < records.length; i++) {
-                var rec = records[i];
-                if (rec.name === name) {
-                    return rec;
-                }
-            }
-            return {};
-        };
-
-        this.removePosition = function (currentData) {
-            var data = angular.copy(currentData);
-            for (var topIdx = 0; topIdx < data.length; topIdx++) {
-                for (var leftIdx = 0; leftIdx < data[topIdx].length; leftIdx++) {
-                    delete data[topIdx][leftIdx].top;
-                    delete data[topIdx][leftIdx].left;
-                }
-            }
-            return data;
         };
 
     }]);

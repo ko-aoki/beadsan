@@ -4,13 +4,13 @@
         <h4>ログイン</h4>
     </div>
     <div class="modal-body">
-        <span>{{message}}</span>
+        <span>{{loginDto.message}}</span>
         <br/>
         <label>メールアドレス</label>
-        <input type="text" class="form-control" ng-model="mailAddress">
+        <input type="text" class="form-control" ng-model="loginDto.mailAddress">
         <br/>
         <label>パスワード</label>
-        <input type="password" class="form-control" ng-model="password">
+        <input type="password" class="form-control" ng-model="loginDto.password">
         <br/>
         <input type="button" class="btn btn-info" value="ログイン" ng-click="login()"/>
         <input type="button" class="btn btn-default" value="cancel" ng-click="cancel()"/>
