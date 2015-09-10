@@ -18,7 +18,9 @@ import org.springframework.data.repository.query.Param;
  */
 public interface DesignRepository extends JpaRepository<TrnDesign, Integer> {
 //    Page<TrnDesign> findByMstUserIdOrderByUpdateDateAsc(Pageable pageable,MstUser mstUser);
-	@Query("select t from TrnDesign t where t.mstUserId.mstUserId = :mstUserId Order by t.updateDate asc")
+	@Query("select t from TrnDesign t where t.mstUserId.mstUserId = :mstUserId Order by t.updateDate desc")
     Page<TrnDesign> selectByMstUserIdOrderByUpdateDateAsc(Pageable pageable, @Param("mstUserId") int mstUserId);
 
+    @Query("select t from TrnDesign t where t.mstUserId.mstUserId = :mstUserId and t.name = :designName Order by t.updateDate desc")
+    TrnDesign selectByMstUserIdAndDesignName(@Param("mstUserId") int mstUserId, @Param("designName") String DesignName);
 }

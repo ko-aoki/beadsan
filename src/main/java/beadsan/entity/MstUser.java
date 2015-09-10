@@ -8,18 +8,7 @@ package beadsan.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MstUser.findByFirstName", query = "SELECT m FROM MstUser m WHERE m.firstName = :firstName"),
     @NamedQuery(name = "MstUser.findByLastName", query = "SELECT m FROM MstUser m WHERE m.lastName = :lastName"),
     @NamedQuery(name = "MstUser.findByMailAddress", query = "SELECT m FROM MstUser m WHERE m.mailAddress = :mailAddress"),
-    @NamedQuery(name = "MstUser.findByNickName", query = "SELECT m FROM MstUser m WHERE m.nickName = :nickName"),
+    @NamedQuery(name = "MstUser.findByNickname", query = "SELECT m FROM MstUser m WHERE m.nickname = :nickname"),
     @NamedQuery(name = "MstUser.findByVersionNo", query = "SELECT m FROM MstUser m WHERE m.versionNo = :versionNo"),
     @NamedQuery(name = "MstUser.findByInsertDate", query = "SELECT m FROM MstUser m WHERE m.insertDate = :insertDate"),
     @NamedQuery(name = "MstUser.findByUpdateDate", query = "SELECT m FROM MstUser m WHERE m.updateDate = :updateDate")})
@@ -45,6 +34,7 @@ public class MstUser implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "mst_user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer mstUserId;
     @Column(name = "password")
     private String password;
@@ -54,8 +44,8 @@ public class MstUser implements Serializable {
     private String lastName;
     @Column(name = "mail_address")
     private String mailAddress;
-    @Column(name = "nick_name")
-    private String nickName;
+    @Column(name = "nickname")
+    private String nickname;
     @Column(name = "version_no")
     @Version
     private Integer versionNo;
@@ -114,12 +104,12 @@ public class MstUser implements Serializable {
         this.mailAddress = mailAddress;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public Integer getVersionNo() {

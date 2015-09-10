@@ -14,5 +14,4 @@ public class PageDto implements Serializable {
 
     private LoginDto loginDto;
     private HeaderDto headerDto;
-    private PaginationDto paginationDto;
 }

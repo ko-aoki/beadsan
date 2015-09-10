@@ -70,13 +70,6 @@
 			<artifactId>dozer</artifactId>
 			<version>5.5.1</version>
 		</dependency>
-<!--
-  		<dependency>
-		    <groupId>org.modelmapper.extensions</groupId>
-		    <artifactId>modelmapper-spring</artifactId>
-		  	<version>0.7.4</version>
-		</dependency>
--->
     	<dependency>
     		<groupId>javax.inject</groupId>
     		<artifactId>javax.inject</artifactId>
@@ -89,6 +82,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.1.RELEASE</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

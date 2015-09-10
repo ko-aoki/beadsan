@@ -5,20 +5,13 @@
  */
 package beadsan.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -39,6 +32,7 @@ public class TrnDesign implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trn_design_id")
     private Integer trnDesignId;
     @Column(name = "name")
@@ -55,9 +49,11 @@ public class TrnDesign implements Serializable {
     private Date updateDate;
     @JoinColumn(name = "mst_palette_id", referencedColumnName = "mst_palette_id")
     @ManyToOne
+    @JsonIgnore
     private MstPalette mstPaletteId;
     @JoinColumn(name = "mst_user_id", referencedColumnName = "mst_user_id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private MstUser mstUserId;
 
     public TrnDesign() {
@@ -155,5 +151,5 @@ public class TrnDesign implements Serializable {
     public String toString() {
         return "beadsan.entity.TrnDesign[ trnDesignId=" + trnDesignId + " ]";
     }
-    
+
 }

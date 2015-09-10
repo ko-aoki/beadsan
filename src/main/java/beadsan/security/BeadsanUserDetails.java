@@ -6,6 +6,7 @@ import beadsan.entity.MstUser;
 import lombok.Data;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
@@ -23,8 +24,14 @@ public class BeadsanUserDetails extends User {
                 user.getPassword(),
                 AuthorityUtils.createAuthorityList("DEFAULT_USER")
         );
-        Mapper mapper = new DozerBeanMapper();
-        this.userInfo = mapper.map(user, UserInfo.class);
+
+        // ここだとmapperが機能しないので
+        this.userInfo = new UserInfo();
+        this.userInfo.setFirstName(user.getFirstName());
+        this.userInfo.setLastName(user.getLastName());
+        this.userInfo.setUserId(user.getMstUserId());
+        this.userInfo.setMailAddress(user.getMailAddress());
+        this.userInfo.setNickname(user.getNickname());
 
     }
 }
