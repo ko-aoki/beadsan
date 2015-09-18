@@ -17,6 +17,6 @@ angular.module('perlerbeadsApp')
             }
 
             $scope.cancel = function () {
-                $modalInstance.close();
+                $modalInstance.dismiss('cancel');
             }
         }]);

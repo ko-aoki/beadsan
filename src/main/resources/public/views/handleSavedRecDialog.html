@@ -1,15 +1,31 @@
 <div>
   <script type="text/ng-template" id="handleSavedRecDialog.tmpl.html">
     <div class="modal-header">
-      <h4>ほぞんしたビーズ</h4>
+      <h4>保存した図案</h4>
     </div>
     <div class="modal-body">
-      <label>なまえ：{{name}}</label>
+
+      <span class="label label-info">図案名</span>
+      <label style="word-wrap: break-word;">{{savedRec.name}}</label>
+
+      <div style="height: 130px;">
+        <div ng-repeat="savedBeads in savedRec.data">
+          <div ng-repeat="savedBead in savedBeads">
+            <div class="s_circle s_{{savedBead.color}}"
+                 style="position: absolute; top:{{savedBead.top + 70}}px; left:{{savedBead.left + 40}}px;">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
-      <input type="button" class="btn btn-primary" value="へんしゅうする" ng-click="edit()"/>
-      <input type="button" class="btn btn-danger" value="さくじょする" ng-click="deleteData()"/>
-      <input type="button" class="btn btn-default" value="キャンセル" ng-click="cancel()"/>
+      <div>
+        <input type="button" class="btn btn-primary" value="へんしゅうする" ng-click="edit()"/>
+        <input type="button" class="btn btn-danger" value="さくじょする" ng-click="deleteData()"/>
+      </div>
+      <div>
+        <input type="button" class="btn btn-default" value="キャンセル" ng-click="cancel()"/>
+      </div>
     </div>
   </script>
 </div>

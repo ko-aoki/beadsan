@@ -40,7 +40,6 @@ public class BeadRestController {
 
 	@RequestMapping(value = "designName/{designName}", method = RequestMethod.GET)
 	Map<String, Boolean> hasDuplicated(@AuthenticationPrincipal BeadsanUserDetails userDetail,
-//	BooleanDto hasDuplicated(@AuthenticationPrincipal BeadsanUserDetails userDetail,
 										   @PathVariable("designName") String designName) {
 
 		TrnDesign trnDesign = designService.findDesignsByUserIdAndDesignName(
@@ -61,31 +60,38 @@ public class BeadRestController {
 		TrnDesign trnDesign = mapper.map(designDto, TrnDesign.class);
 		trnDesign.getMstUserId().setMstUserId(userDetail.getUserInfo().getUserId());
 		TrnDesign created = designService.save(trnDesign);
-		URI location = uriBuilder.path("api/bead/{id}")
-				.buildAndExpand(created.getTrnDesignId()).toUri();
+		URI location = uriBuilder.path("api/bead/designName/{designName}")
+				.buildAndExpand(created.getName()).toUri();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(location);
-		return new ResponseEntity<>(created, headers, HttpStatus.CREATED);
+		return new ResponseEntity<>(null, headers, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
 	ResponseEntity<TrnDesign> update(
 			@AuthenticationPrincipal BeadsanUserDetails userDetail,
-			@RequestBody DesignDto designDto
+			@RequestBody DesignDto designDto,
+			UriComponentsBuilder uriBuilder
 	) {
 
 		TrnDesign trnDesign = mapper.map(designDto, TrnDesign.class);
 		trnDesign.getMstUserId().setMstUserId(userDetail.getUserInfo().getUserId());
-		TrnDesign created = designService.save(trnDesign);
+		TrnDesign updated = designService.save(trnDesign);
 
+		URI location = uriBuilder.path("api/bead/designName/{designName}")
+				.buildAndExpand(updated.getName()).toUri();
 		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<>(created, headers, HttpStatus.OK);
+		headers.setLocation(location);
+		return new ResponseEntity<>(null, headers, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "designName/{designName}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	void deleteDesing(@PathVariable Integer id) {
-		designService.delete(id);
+	void deleteDesign(@AuthenticationPrincipal BeadsanUserDetails userDetail,
+					  @PathVariable("designName") String designName) {
+
+		designService.deleteDesignByName(
+				userDetail.getUserInfo().getUserId(), designName);
 	}
 
 }

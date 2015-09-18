@@ -1,20 +1,22 @@
 angular.module('perlerbeadsApp')
-  .controller('HandleSavedRecDialogCtrl', ['$scope', '$modalInstance', 'beadDataService', 'beadViewService', 'name', 'savedRecs',
-    function ($scope, $modalInstance, beadDataService,  beadViewService, name, savedRecs) {
+  .controller('HandleSavedRecDialogCtrl', ['$window', '$scope', '$modalInstance', 'beadDataService', 'beadViewService', 'savedRec',
+    function ($window, $scope, $modalInstance, beadDataService,  beadViewService, savedRec) {
 
-      $scope.name = name;
+      $scope.savedRec = savedRec;
       $scope.edit = function () {
-        var currentData = beadDataService.getDataByName(name, savedRecs);
-        beadDataService.currentSave(name, currentData.paletteCd, beadViewService.convert(currentData.paletteCd, currentData.data));
+        var currentData = savedRec;
+        beadDataService.currentSave(savedRec.name, currentData.paletteCd, beadViewService.convert(currentData.paletteCd, currentData.data));
         $modalInstance.close();
       };
 
       $scope.deleteData = function () {
-        beadDataService.deleteData(name);
+        if ($window.confirm('「' + savedRec.name + '」' + 'さくじょしますか？')) {
+          beadDataService.deleteData(savedRec.name);
+        }
         $modalInstance.close();
       };
 
       $scope.cancel = function () {
-        $modalInstance.dismiss();
+        $modalInstance.dismiss('cancel');
       };
     }]);

@@ -4,16 +4,16 @@ angular.module('palette').service('squarePalette',
     this.beadsLength = 20;
     this.margin = 2;
     this.thunmbnailBeadsLength = 5;
-    this.thunmbnailTopOffset = 40;
-    this.thunmbnailRecordOffset = 150;
+    //this.thunmbnailTopOffset = 40;
+    //this.thunmbnailRecordOffset = 150;
     this.thunmbnailMargin = 0;
     this.makePalette = function (isThumbnail, idx, itemSize) {
       var topIdx, leftIdx, beadsLength, topOffset, recordOffset, margin;
       var beads = new Array(this.sideLength);
       if (isThumbnail) {
         beadsLength = this.thunmbnailBeadsLength;
-        topOffset = this.thunmbnailTopOffset;
-        recordOffset = this.thunmbnailRecordOffset * (idx % itemSize);
+        //topOffset = this.thunmbnailTopOffset;
+        //recordOffset = this.thunmbnailRecordOffset * (idx % itemSize);
         margin = this.thunmbnailMargin;
       } else {
         beadsLength = this.beadsLength;
@@ -25,8 +25,10 @@ angular.module('palette').service('squarePalette',
         beads[topIdx] = new Array(this.sideLength);
         for (leftIdx = 0; leftIdx < this.sideLength; leftIdx++) {
           beads[topIdx][leftIdx] = {};
-          beads[topIdx][leftIdx].top = topIdx * (beadsLength + margin) + topOffset;
-          beads[topIdx][leftIdx].left = leftIdx * (beadsLength + margin) + recordOffset;
+          //beads[topIdx][leftIdx].top = topIdx * (beadsLength + margin) + topOffset;
+          //beads[topIdx][leftIdx].left = leftIdx * (beadsLength + margin) + recordOffset;
+          beads[topIdx][leftIdx].top = topIdx * (beadsLength + margin);
+          beads[topIdx][leftIdx].left = leftIdx * (beadsLength + margin);
           beads[topIdx][leftIdx].color = 'deselect';
         }
       }

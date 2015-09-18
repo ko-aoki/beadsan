@@ -68,7 +68,13 @@ public class DesignService {
 		return designRepo.save(design);
     }
 
-    public void delete(Integer id) {
+	public void deleteDesignByName(Integer userId, String designName) {
+
+		TrnDesign trnDesign = this.findDesignsByUserIdAndDesignName(userId, designName);
+		designRepo.delete(trnDesign);
+	}
+
+	public void delete(Integer id) {
     	designRepo.delete(id);
     }
 

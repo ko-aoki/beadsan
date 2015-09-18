@@ -16,7 +16,11 @@ angular.module('perlerbeadsApp').factory('beadResource', ['$resource',
                     'design': '@design'
                 },
                 url: baseApi
-            }
+            },
+            deleteByName: {
+                method: 'DELETE',
+                url: baseApi + 'designName/:designName'
+            },
         };
         return $resource(baseApi, params, actions);
     }]);

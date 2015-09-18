@@ -14,13 +14,13 @@
       <p>タイトルをクリックでへんしゅうできます。</p>
       <div id="saveDiv" class="col col-md-12" style="height:160px;">
         <div ng-include src="'./views/handleSavedRecDialog.html'"></div>
-        <div ng-repeat="saveRec in savedRecs" ng-click="handleSavedRec(saveRec.name)"
+        <div ng-repeat="(idx, savedRec) in savedRecs" ng-click="handleSavedRec(savedRec)"
              style="display: inline-block; width:150px;">
-          <div style="position: absolute; top: 0px; left:{{$index * 150}}px; width: 130px;">{{saveRec.name}}</div>
-          <div ng-repeat="savedBeads in saveRec.data">
+          <div style="position: absolute; top: 0px; left:{{idx * 150}}px; width: 130px; word-wrap: break-word;">{{savedRec.name}}</div>
+          <div ng-repeat="savedBeads in savedRec.data">
             <div ng-repeat="savedBead in savedBeads">
               <div class="s_circle s_{{savedBead.color}}"
-                   style="position: absolute; top:{{savedBead.top}}px; left:{{savedBead.left}}px;">
+                   style="position: absolute; top:{{savedBead.top + 40}}px; left:{{savedBead.left + idx * 150}}px;">
               </div>
             </div>
           </div>

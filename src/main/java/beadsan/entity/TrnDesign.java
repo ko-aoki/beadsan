@@ -10,7 +10,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -55,6 +57,9 @@ public class TrnDesign implements Serializable {
     @ManyToOne(optional = false)
     @JsonIgnore
     private MstUser mstUserId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trnDesignId")
+    @JsonIgnore
+    private Collection<TrnTag> trnTagCollection;
 
     public TrnDesign() {
     }
@@ -125,6 +130,15 @@ public class TrnDesign implements Serializable {
 
     public void setMstUserId(MstUser mstUserId) {
         this.mstUserId = mstUserId;
+    }
+
+    @XmlTransient
+    public Collection<TrnTag> getTrnTagCollection() {
+        return trnTagCollection;
+    }
+
+    public void setTrnTagCollection(Collection<TrnTag> trnTagCollection) {
+        this.trnTagCollection = trnTagCollection;
     }
 
     @Override

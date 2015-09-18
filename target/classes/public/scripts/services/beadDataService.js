@@ -36,21 +36,8 @@ angular.module('perlerbeadsApp').service('beadDataService', ['$window','beadServ
             return beadResource.get(page).$promise;
         };
 
-        // TODO 未実装
         this.deleteData = function (name) {
-            var records = [];
-            if ($window.localStorage.getItem('PERSISTED_DATA') != null) {
-                records = angular.fromJson($window.localStorage.getItem('PERSISTED_DATA'));
-            }
-            for (var i = 0; i < records.length; i++) {
-                var rec = records[i];
-                if (rec.name === name) {
-                    if ($window.confirm('「' + name + '」' + 'さくじょしますか？')) {
-                        records.splice(i, 1);
-                    }
-                }
-            }
-            $window.localStorage.setItem('PERSISTED_DATA', angular.toJson(records));
+            return beadResource.deleteByName({"designName": name}).$promise;
         };
 
         this.getDataByName = function (name, savedRecs) {
@@ -75,13 +62,6 @@ angular.module('perlerbeadsApp').service('beadDataService', ['$window','beadServ
                 data[topIdx] = nestData;
             }
 
-            //var data = angular.copy(currentData);
-            //for (var topIdx = 0; topIdx < data.length; topIdx++) {
-            //    for (var leftIdx = 0; leftIdx < data[topIdx].length; leftIdx++) {
-            //        delete data[topIdx][leftIdx].top;
-            //        delete data[topIdx][leftIdx].left;
-            //    }
-            //}
             return data;
         };
 
