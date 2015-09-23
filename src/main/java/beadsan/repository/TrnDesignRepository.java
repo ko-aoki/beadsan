@@ -16,11 +16,14 @@ import org.springframework.data.repository.query.Param;
  *
  * @author ko-aoki
  */
-public interface DesignRepository extends JpaRepository<TrnDesign, Integer> {
-//    Page<TrnDesign> findByMstUserIdOrderByUpdateDateAsc(Pageable pageable,MstUser mstUser);
+public interface TrnDesignRepository extends JpaRepository<TrnDesign, Integer>, TrnDesignRepositoryCustom {
+
 	@Query("select t from TrnDesign t where t.mstUserId.mstUserId = :mstUserId Order by t.updateDate desc")
     Page<TrnDesign> selectByMstUserIdOrderByUpdateDateAsc(Pageable pageable, @Param("mstUserId") int mstUserId);
 
     @Query("select t from TrnDesign t where t.mstUserId.mstUserId = :mstUserId and t.name = :designName Order by t.updateDate desc")
     TrnDesign selectByMstUserIdAndDesignName(@Param("mstUserId") int mstUserId, @Param("designName") String DesignName);
+
+    Page<TrnDesign> selectByNameAndTag(Pageable pageable, @Param("designName") String designName, @Param("tag") String tag);
+
 }

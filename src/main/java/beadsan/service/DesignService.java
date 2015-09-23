@@ -1,12 +1,8 @@
 package beadsan.service;
 
 import beadsan.dto.DesignDto;
-import beadsan.entity.MstPalette;
-import beadsan.entity.MstUser;
-import beadsan.entity.TrnDesign;
-import beadsan.repository.DesignRepository;
-import beadsan.repository.PaletteRepository;
-import beadsan.repository.UserRepository;
+import beadsan.entity.*;
+import beadsan.repository.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -23,18 +20,22 @@ import java.util.List;
 public class DesignService {
 
     @Autowired 
-    private DesignRepository designRepo;
+    private TrnDesignRepository trnDesignRepo;
 	@Autowired
-	private UserRepository userRepo;
+	private MstUserRepository mstUserRepo;
 	@Autowired
-	private PaletteRepository paletteRepo;
+	private MstPaletteRepository mstPaletteRepo;
+	@Autowired
+	private MstTagRepository mstTagRepo;
+	@Autowired
+	private TrnTagRepository trnTagRepo;
 
 	@Autowired
 	protected Mapper mapper;
 	
 	public Page<DesignDto> findDesignsByUserId(int userId, int curPage, int itemsPerPage) {
 
-		Page<TrnDesign> trnDesigns = designRepo.selectByMstUserIdOrderByUpdateDateAsc(new PageRequest(curPage - 1, itemsPerPage), userId);
+		Page<TrnDesign> trnDesigns = trnDesignRepo.selectByMstUserIdOrderByUpdateDateAsc(new PageRequest(curPage - 1, itemsPerPage), userId);
 		List<TrnDesign> contents = trnDesigns.getContent();
 		ArrayList<DesignDto> designs = new ArrayList<DesignDto>();
 		for (TrnDesign content : contents) {
@@ -46,36 +47,86 @@ public class DesignService {
 	}
 
 	public TrnDesign findDesignsByUserIdAndDesignName(int userId, String designName) {
-		TrnDesign trnDesign = designRepo.selectByMstUserIdAndDesignName(userId, designName);
+		TrnDesign trnDesign = trnDesignRepo.selectByMstUserIdAndDesignName(userId, designName);
 		return trnDesign;
+	}
+
+	public Page<DesignDto> findDesignsByDesignNameAndTag(String designName, String tag, int curPage, int itemsPerPage) {
+		Page<TrnDesign> trnDesigns = trnDesignRepo.selectByNameAndTag(new PageRequest(curPage - 1, itemsPerPage), designName, tag);
+		List<TrnDesign> contents = trnDesigns.getContent();
+		ArrayList<DesignDto> designs = new ArrayList<DesignDto>();
+		for (TrnDesign content : contents) {
+			DesignDto designDto = mapper.map(content, DesignDto.class);
+			designs.add(designDto);
+		}
+		PageImpl page = new PageImpl(designs, new PageRequest(curPage - 1, 1), trnDesigns.getTotalElements());
+		return page;
 	}
 
 	public TrnDesign save(TrnDesign design) {
 
 		// 既存データチェック
-		TrnDesign trnDesign = designRepo.selectByMstUserIdAndDesignName(
+		TrnDesign existingDesign = trnDesignRepo.selectByMstUserIdAndDesignName(
 				design.getMstUserId().getMstUserId(), design.getName());
-		if (trnDesign != null) {
+		if (existingDesign != null) {
 			// 更新
-			trnDesign.setDesign(design.getDesign());
-			return designRepo.save(trnDesign);
+			existingDesign.setDesign(design.getDesign());
+			ArrayList<TrnTag> trnTags = new ArrayList<>();
+			for (TrnTag tag : design.getTrnTagCollection()) {
+				MstTag mstTag = mstTagRepo.findByName(tag.getMstTagId().getName());
+				if (mstTag == null)  {
+					mstTag = mstTagRepo.save(tag.getMstTagId());
+				}
+				TrnTag trnTag = trnTagRepo.findByTrnDesignIdAndMstTagId(
+						existingDesign.getTrnDesignId(),
+						mstTag.getMstTagId());
+				if (trnTag == null) {
+					trnTag = new TrnTag();
+					trnTag.setTrnDesignId(existingDesign);
+					trnTag.setMstTagId(mstTag);
+					TrnTag saveTrnTag = trnTagRepo.save(trnTag);
+					trnTags.add(saveTrnTag);
+				} else {
+					trnTags.add(trnTag);
+				}
+
+			}
+			existingDesign.setTrnTagCollection(trnTags);
+			TrnDesign savedTrnDesign = trnDesignRepo.save(existingDesign);
+			return savedTrnDesign;
 		}
 		// 新規作成
-		MstUser mstUser = userRepo.findOne(design.getMstUserId().getMstUserId());
+		MstUser mstUser = mstUserRepo.findOne(design.getMstUserId().getMstUserId());
 		design.setMstUserId(mstUser);
-		final MstPalette mstPalette = paletteRepo.selectByPaletteCd(design.getMstPaletteId().getPaletteCd());
+		final MstPalette mstPalette = mstPaletteRepo.selectByPaletteCd(design.getMstPaletteId().getPaletteCd());
 		design.setMstPaletteId(mstPalette);
-		return designRepo.save(design);
+		Collection<TrnTag> trnTagCollection = design.getTrnTagCollection();
+		design.setTrnTagCollection(null);	// キーがないため一度削除
+		TrnDesign savedTrnDesign = trnDesignRepo.save(design); // 親テーブルのデータ作成
+		ArrayList<TrnTag> trnTags = new ArrayList<>();
+		for (TrnTag tag : trnTagCollection) {
+			MstTag mstTag = mstTagRepo.findByName(tag.getMstTagId().getName());
+			if (mstTag == null) {
+				mstTag = mstTagRepo.save(tag.getMstTagId());
+			}
+			TrnTag trnTag = new TrnTag();
+			trnTag.setMstTagId(mstTag);
+			trnTag.setTrnDesignId(savedTrnDesign);
+			TrnTag saveTrnTag = trnTagRepo.save(trnTag);
+			trnTags.add(saveTrnTag);
+		}
+		savedTrnDesign.setTrnTagCollection(trnTags);
+		return savedTrnDesign;
     }
 
 	public void deleteDesignByName(Integer userId, String designName) {
 
 		TrnDesign trnDesign = this.findDesignsByUserIdAndDesignName(userId, designName);
-		designRepo.delete(trnDesign);
+		trnDesignRepo.delete(trnDesign);
 	}
 
 	public void delete(Integer id) {
-    	designRepo.delete(id);
+    	trnDesignRepo.delete(id);
     }
 
 }

@@ -1,6 +1,5 @@
 package beadsan.repository;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -8,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,17 +14,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import beadsan.App;
 import beadsan.entity.MstUser;
-import beadsan.entity.TrnDesign;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @IntegrationTest({"server.port:0",
         "spring.datasource.url:jdbc:postgresql://192.168.56.101:5432/devdb"}) // (1)
-public class DesignRepositoryTest {
+public class TrnDesignRepositoryTest {
 
-    @Autowired private DesignRepository designRepo;
-    @Autowired private UserRepository userRepo;
+    @Autowired private TrnDesignRepository designRepo;
+    @Autowired private MstUserRepository userRepo;
 
     //------------------------------------------------- find all
     

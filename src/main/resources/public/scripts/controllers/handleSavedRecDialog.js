@@ -5,7 +5,12 @@ angular.module('perlerbeadsApp')
       $scope.savedRec = savedRec;
       $scope.edit = function () {
         var currentData = savedRec;
-        beadDataService.currentSave(savedRec.name, currentData.paletteCd, beadViewService.convert(currentData.paletteCd, currentData.data));
+        beadDataService.currentSave(
+            savedRec.name,
+            currentData.paletteCd,
+            beadViewService.convert(currentData.paletteCd, currentData.data),
+            savedRec.tags
+        );
         $modalInstance.close();
       };
 

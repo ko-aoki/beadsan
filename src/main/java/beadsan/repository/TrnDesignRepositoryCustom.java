@@ -5,17 +5,17 @@
  */
 package beadsan.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import beadsan.entity.TrnDesign;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
-
-import beadsan.entity.MstUser;
 
 /**
  *
  * @author ko-aoki
  */
-public interface UserRepository extends JpaRepository<MstUser, Integer> {
+public interface TrnDesignRepositoryCustom {
 
-	MstUser findByMailAddress(@Param("mailAddress") String mailAddress);
+    Page<TrnDesign> selectByNameAndTag(Pageable pageable, @Param("designName") String designName, @Param("tag") String tag);
 
 }

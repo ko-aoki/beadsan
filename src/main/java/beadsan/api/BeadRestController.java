@@ -94,4 +94,17 @@ public class BeadRestController {
 				userDetail.getUserInfo().getUserId(), designName);
 	}
 
+	@RequestMapping(value = "find", method = RequestMethod.GET)
+	Page<DesignDto> findDesigns(@AuthenticationPrincipal BeadsanUserDetails userDetail,
+								@RequestParam("designName") String designName,
+								@RequestParam("tag") String tag,
+								@RequestParam("curPage") int curPage,
+								@RequestParam("itemsPerPage") int itemsPerPage) {
+		Page<DesignDto> designs = designService.findDesignsByUserId(userDetail.getUserInfo().getUserId(),
+				curPage, itemsPerPage);
+
+		return designs;
+	}
+
+
 }

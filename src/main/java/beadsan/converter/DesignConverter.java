@@ -1,15 +1,15 @@
 package beadsan.converter;
 
 import beadsan.dto.DesignDto;
-import beadsan.entity.MstPalette;
-import beadsan.entity.MstUser;
-import beadsan.entity.TrnDesign;
+import beadsan.entity.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dozer.CustomConverter;
 import org.dozer.MappingException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by ko-aoki on 2015/08/28.
@@ -46,32 +46,52 @@ public class DesignConverter  implements CustomConverter {
         try {
             dest.setDesign(mapper.readValue(sourceObj.getDesign(), String[][].class));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        Collection<TrnTag> trnTags = sourceObj.getTrnTagCollection();
+        String[] tags = new String[trnTags.size()];
+        int cnt = 0;
+        for(TrnTag trnTag : trnTags) {
+            tags[cnt] = trnTag.getMstTagId().getName();
+            cnt++;
+        }
+        dest.setTags(tags);
         return dest;
     }
 
     private Object designDtoToTrnDesign(Object destination, DesignDto source, ObjectMapper mapper) {
 
         TrnDesign dest = null;
-        DesignDto souceObj = source;
+        DesignDto sourceObj = source;
         // check to see if the object already exists
         if (destination == null) {
             dest = new TrnDesign();
         } else {
             dest = (TrnDesign) destination;
         }
-        dest.setName(souceObj.getName());
+        dest.setName(sourceObj.getName());
         try {
-            dest.setDesign(mapper.writeValueAsString(souceObj.getDesign()));
+            dest.setDesign(mapper.writeValueAsString(sourceObj.getDesign()));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         MstUser mstUser = new MstUser();
         dest.setMstUserId(mstUser);
         MstPalette mstPalette = new MstPalette();
-        mstPalette.setPaletteCd(souceObj.getPaletteCd());
+        mstPalette.setPaletteCd(sourceObj.getPaletteCd());
         dest.setMstPaletteId(mstPalette);
+
+        String[] tags = sourceObj.getTags();
+        Collection<TrnTag> trnTags = new ArrayList<TrnTag>();
+        for (String tag : tags) {
+            TrnTag trnTag = new TrnTag();
+            MstTag mstTag = new MstTag();
+            mstTag.setName(tag);
+            trnTag.setMstTagId(mstTag);
+            trnTags.add(trnTag);
+        }
+        dest.setTrnTagCollection(trnTags);
+
         return dest;
     }
 }

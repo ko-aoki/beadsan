@@ -1,12 +1,13 @@
 angular.module('perlerbeadsApp').service('beadDataService', ['$window','beadService', 'beadResource',
     function ($window, beadService, beadResource) {
-        this.currentSave = function (name, paletteCd, currentData) {
+        this.currentSave = function (name, paletteCd, currentData, tags) {
             $window.localStorage.setItem('CURRENT_DATA',
                 angular.toJson(
                 {
                     name: name,
                     paletteCd: paletteCd,
-                    data: currentData
+                    data: currentData,
+                    tags: tags
                 }
             ));
         };
@@ -22,18 +23,23 @@ angular.module('perlerbeadsApp').service('beadDataService', ['$window','beadServ
             ).$promise;
         };
 
-        this.save = function (name, paletteCd, data) {
+        this.save = function (name, paletteCd, data, tags) {
 
             var persistingData = {
                 'name': name,
                 'paletteCd': paletteCd,
-                'design': this.removePosition(data, beadService.getPalette(paletteCd))
+                'design': this.removePosition(data, beadService.getPalette(paletteCd)),
+                'tags': tags
             };
             return beadResource.save(persistingData).$promise;
         };
 
         this.load = function (page) {
             return beadResource.get(page).$promise;
+        };
+
+        this.find = function (cond) {
+            return beadResource.find(cond).$promise;
         };
 
         this.deleteData = function (name) {

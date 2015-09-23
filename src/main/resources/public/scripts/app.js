@@ -27,6 +27,10 @@ angular
             templateUrl: 'views/about.html',
             controller: 'AboutCtrl'
           })
+          .when('/find', {
+              templateUrl: 'views/finder.html',
+              controller: 'FinderCtrl'
+          })
           .otherwise({
             redirectTo: '/'
           });

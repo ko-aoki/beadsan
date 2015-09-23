@@ -5,7 +5,7 @@ import beadsan.dto.LoginDto;
 import beadsan.dto.PageDto;
 import beadsan.dto.UserDto;
 import beadsan.entity.MstUser;
-import beadsan.repository.UserRepository;
+import beadsan.repository.MstUserRepository;
 import beadsan.security.BeadsanUserDetails;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.logging.Handler;
 
 /**
  * ログイン画面のサービスクラス.
@@ -34,7 +33,7 @@ public class UserService {
 	private AuthenticationManager authManager;
 
 	@Autowired
-	private UserRepository userRepo;
+	private MstUserRepository mstUserRepo;
 
 	/**
      * ログイン処理を行います.
@@ -73,13 +72,13 @@ public class UserService {
 	public UserDto registerUser(UserDto userDto) {
 
 		UserDto outDto = mapper.map(userDto, UserDto.class);
-		MstUser user = userRepo.findByMailAddress(userDto.getMailAddress());
+		MstUser user = mstUserRepo.findByMailAddress(userDto.getMailAddress());
 		if (user != null) {
 			outDto.setErrorMessage("同じメールアドレスが登録されています。他のメールアドレスを指定してください。");
 			return outDto;
 		}
 		MstUser mstUser = mapper.map(userDto, MstUser.class);
-		userRepo.save(mstUser);
+		mstUserRepo.save(mstUser);
 
 		outDto.setMessage("ユーザを登録しました。");
 		return outDto;

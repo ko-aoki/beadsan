@@ -1,10 +1,7 @@
 package beadsan.security;
 
-import beadsan.dto.LoginDto;
 import beadsan.entity.MstUser;
-import beadsan.repository.UserRepository;
-import beadsan.security.BeadsanUserDetails;
-import org.dozer.Mapper;
+import beadsan.repository.MstUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +17,7 @@ import javax.transaction.Transactional;
 public class BeadsanAuthService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepo;
+    private MstUserRepository userRepo;
 
 //    @Autowired
 //	protected Mapper mapper;

@@ -34,9 +34,10 @@ public class DesignDto implements Serializable {
 	 * 図案データ
 	 */
 	private String[][] design;
-//	/**
-//	 * 更新日
-//	 */
-//	private String updateDate;
+
+	/**
+	 * タグ
+	 */
+	private String[] tags;
 
 }

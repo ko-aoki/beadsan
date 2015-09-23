@@ -85,8 +85,11 @@
   <br/>
 
   <div class="row col col-md-12" style="top: 420px">
+    <span ng-repeat="tag in tags" class="label label-info">{{tag}}</span>
+    <br/>
     <h4>{{name}}</h4>
     <br/>
+
     <!--
           <input type="button" class="btn btn-primary" value="いろをかえる" ng-click="open('sm')"/>
           <br/>
@@ -112,7 +115,7 @@
     </ul>
     <div ng-include src="'./views/saveDialog.html'"></div>
     <div ng-include src="'./views/newPaletteDialog.html'"></div>
-  </div>
+  </span>
 
 </div>
 </div>

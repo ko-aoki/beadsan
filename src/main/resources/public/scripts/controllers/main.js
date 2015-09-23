@@ -45,11 +45,12 @@ angular.module('perlerbeadsApp')
                 var savedRecs = new Array(data.content.length);
                 for (var i = 0; i < data.content.length; i++) {
                   savedRecs[i] = {
-                      name: data.content[i].name,
-                      paletteCd: data.content[i].paletteCd,
-                      data: beadViewService.convert(data.content[i].paletteCd,
-                          data.content[i].design, true, i, itemsPerPage)
-                      };
+                    name: data.content[i].name,
+                    paletteCd: data.content[i].paletteCd,
+                    data: beadViewService.convert(data.content[i].paletteCd,
+                        data.content[i].design, true, i, itemsPerPage),
+                    tags: data.content[i].tags
+                  };
                 }
                 $scope.page = {
                   itemsPerPage: itemsPerPage,
@@ -95,6 +96,7 @@ angular.module('perlerbeadsApp')
           $scope.beadsList = currentData.data;
           $scope.paletteCd = currentData.paletteCd;
           $scope.colors = beadViewService.countColors($scope.beadsList);
+          $scope.tags = currentData.tags;
         }
       };
       displayCurrent();
@@ -112,7 +114,7 @@ angular.module('perlerbeadsApp')
         } else {
           bead.color = $scope.color;
         }
-        beadDataService.currentSave($scope.name, $scope.paletteCd, $scope.beadsList);
+        beadDataService.currentSave($scope.name, $scope.paletteCd, $scope.beadsList, $scope.tags);
         $scope.colors = beadViewService.countColors($scope.beadsList);
       };
 
@@ -144,24 +146,27 @@ angular.module('perlerbeadsApp')
           resolve: {
             name: function () {
               return $scope.name;
+            },
+            tags: function () {
+              return $scope.tags;
             }
           }
         });
 
         modalInstance.result.then(
-            function (designName) {
-              beadDataService.isOverwritable(designName).then(
+            function (designInfo) {
+              beadDataService.isOverwritable(designInfo.designName).then(
                   function (res) {
                     var isOverwritable = true;
                     if (res.result) {
-                      if (!$window.confirm('「' + designName + '」' + ' おなじなまえがあります。うわがきしますか？')) {
+                      if (!$window.confirm('「' + designInfo.designName + '」' + ' おなじなまえがあります。うわがきしますか？')) {
                         isOverwritable = false;
                       }
                     }
                     if (isOverwritable) {
-                      beadDataService.save(designName, $scope.paletteCd, $scope.beadsList).then(
+                      beadDataService.save(designInfo.designName, $scope.paletteCd, $scope.beadsList, designInfo.tags).then(
                           function () {
-                            $scope.name = designName;
+                            $scope.name = designInfo.designName;
                             deferred.resolve();
                             load();
                           }
@@ -199,6 +204,7 @@ angular.module('perlerbeadsApp')
             $scope.paletteCd = paletteCd;
             $scope.beadsList = beadViewService.makePalette(paletteCd);
             $scope.colors = beadViewService.countColors($scope.beadsList);
+            $scope.tags = [];
           });
         };
         if (promise !== undefined) {
