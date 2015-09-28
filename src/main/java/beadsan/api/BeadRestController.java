@@ -54,8 +54,7 @@ public class BeadRestController {
 	ResponseEntity<TrnDesign> create(
 			@AuthenticationPrincipal BeadsanUserDetails userDetail,
 			@RequestBody DesignDto designDto,
-			UriComponentsBuilder uriBuilder
-	) {
+			UriComponentsBuilder uriBuilder) {
 
 		TrnDesign trnDesign = mapper.map(designDto, TrnDesign.class);
 		trnDesign.getMstUserId().setMstUserId(userDetail.getUserInfo().getUserId());
@@ -71,8 +70,7 @@ public class BeadRestController {
 	ResponseEntity<TrnDesign> update(
 			@AuthenticationPrincipal BeadsanUserDetails userDetail,
 			@RequestBody DesignDto designDto,
-			UriComponentsBuilder uriBuilder
-	) {
+			UriComponentsBuilder uriBuilder) {
 
 		TrnDesign trnDesign = mapper.map(designDto, TrnDesign.class);
 		trnDesign.getMstUserId().setMstUserId(userDetail.getUserInfo().getUserId());
@@ -96,12 +94,12 @@ public class BeadRestController {
 
 	@RequestMapping(value = "find", method = RequestMethod.GET)
 	Page<DesignDto> findDesigns(@AuthenticationPrincipal BeadsanUserDetails userDetail,
-								@RequestParam("designName") String designName,
-								@RequestParam("tag") String tag,
+								@RequestParam(value="designName", required=false) String designName,
+								@RequestParam(value="tag", required=false) String tag,
 								@RequestParam("curPage") int curPage,
 								@RequestParam("itemsPerPage") int itemsPerPage) {
-		Page<DesignDto> designs = designService.findDesignsByUserId(userDetail.getUserInfo().getUserId(),
-				curPage, itemsPerPage);
+
+		Page<DesignDto> designs = designService.findDesignsByDesignNameAndTag(designName, tag, curPage, itemsPerPage);
 
 		return designs;
 	}

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -52,7 +53,16 @@ public class DesignService {
 	}
 
 	public Page<DesignDto> findDesignsByDesignNameAndTag(String designName, String tag, int curPage, int itemsPerPage) {
-		Page<TrnDesign> trnDesigns = trnDesignRepo.selectByNameAndTag(new PageRequest(curPage - 1, itemsPerPage), designName, tag);
+		Page<TrnDesign> trnDesigns =
+				trnDesignRepo.
+						findAll(
+								Specifications.where(
+										TrnDesignSpecification.nameContains(designName)
+								).and(
+										TrnDesignSpecification.tagContains(tag)
+								),
+								new PageRequest(curPage - 1, itemsPerPage)
+						);
 		List<TrnDesign> contents = trnDesigns.getContent();
 		ArrayList<DesignDto> designs = new ArrayList<DesignDto>();
 		for (TrnDesign content : contents) {
