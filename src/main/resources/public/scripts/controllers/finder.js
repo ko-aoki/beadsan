@@ -29,7 +29,7 @@ angular.module('perlerbeadsApp')
 
       function init() {
         if (sharedStateService.get("sharedState") === undefined
-                == sharedStateService.get("sharedState").auth) {
+                || sharedStateService.get("sharedState").auth === undefined) {
           $scope.foundRecs = null;
         }
         $scope.sharedState = sharedStateService.get("sharedState");
@@ -50,11 +50,14 @@ angular.module('perlerbeadsApp')
                 var foundRecs = new Array(data.content.length);
                 for (var i = 0; i < data.content.length; i++) {
                   foundRecs[i] = {
+                    designId: data.content[i].designId,
                     name: data.content[i].name,
                     paletteCd: data.content[i].paletteCd,
                     data: beadViewService.convert(data.content[i].paletteCd,
                         data.content[i].design, true, i, itemsPerPage),
-                    tags: data.content[i].tags
+                    tags: data.content[i].tags,
+                    favoriteCnt: data.content[i].favoriteCnt,
+                    favoriteOne: data.content[i].favoriteOne,
                   };
                 }
                 $scope.page = {
@@ -69,7 +72,7 @@ angular.module('perlerbeadsApp')
       };
 
       $scope.calcTop = function(top, idx) {
-        return top + Math.floor(idx / itemsPerLine) * 200;
+        return top + Math.floor(idx / itemsPerLine) * 180;
       };
 
       $scope.calcLeft = function(left, idx) {
@@ -101,10 +104,10 @@ angular.module('perlerbeadsApp')
       $scope.handleFoundRec = function (rec) {
         var modalInstance = $modal.open({
           size: 'sm',
-          templateUrl: 'handleSavedRecDialog.tmpl.html',
-          controller: 'HandleSavedRecDialogCtrl',
+          templateUrl: 'handleFoundRecDialog.tmpl.html',
+          controller: 'HandleFoundRecDialogCtrl',
           resolve: {
-            savedRec: function() {
+            foundRec: function() {
               return rec
             }
           }
@@ -112,8 +115,6 @@ angular.module('perlerbeadsApp')
 
         modalInstance.result.then(function (name){
           $scope.name = name;
-          load();
-          displayCurrent();
         });
       };
 

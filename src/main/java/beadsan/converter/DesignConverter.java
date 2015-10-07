@@ -41,6 +41,7 @@ public class DesignConverter  implements CustomConverter {
         } else {
             dest = (DesignDto) destination;
         }
+        dest.setDesignId(source.getTrnDesignId());
         dest.setName(sourceObj.getName());
         dest.setPaletteCd(sourceObj.getMstPaletteId().getPaletteCd());
         try {
@@ -56,6 +57,7 @@ public class DesignConverter  implements CustomConverter {
             cnt++;
         }
         dest.setTags(tags);
+
         return dest;
     }
 
@@ -69,6 +71,7 @@ public class DesignConverter  implements CustomConverter {
         } else {
             dest = (TrnDesign) destination;
         }
+        dest.setTrnDesignId(source.getDesignId());
         dest.setName(sourceObj.getName());
         try {
             dest.setDesign(mapper.writeValueAsString(sourceObj.getDesign()));

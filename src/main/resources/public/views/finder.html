@@ -20,6 +20,10 @@
              style="display: inline-block; width:150px;">
             <div style="position: absolute; top:{{calcTop(0, idx)}}px; left:{{calcLeft(0, idx)}}px; width: 130px; word-wrap: break-word;">
                 {{foundRec.name}}
+                <br/>
+                <span class="glyphicon glyphicon-star">
+                    {{foundRec.favoriteCnt}}
+                </span>
             </div>
             <div ng-repeat="beads in foundRec.data">
                 <div ng-repeat="bead in beads">
@@ -29,6 +33,7 @@
                 </div>
             </div>
         </div>
+        <div ng-include src="'./views/handleFoundRecDialog.html'"></div>
     </div>
 </div>
 

@@ -21,6 +21,11 @@ public class DesignDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * 図案ID
+	 */
+	private Integer designId;
+
+	/**
 	 * 図案名称
 	 */
 	private String name;
@@ -34,6 +39,21 @@ public class DesignDto implements Serializable {
 	 * 図案データ
 	 */
 	private String[][] design;
+
+	/**
+	 * お気に入りID(ログインユーザの)
+	 */
+	private Integer favoriteId;
+
+	/**
+	 * お気に入り数
+	 */
+	private Long favoriteCnt;
+
+	/**
+	 * お気に入り済み
+	 */
+	private Boolean favoriteOne;
 
 	/**
 	 * タグ

@@ -19,6 +19,7 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +33,7 @@ public class AppConfig {
     DataSourceProperties properties;
     DataSource dataSource;
 
+    @ConfigurationProperties("spring.datasource")
     @Bean(destroyMethod = "close")
     DataSource realDataSource() throws URISyntaxException {
         String url;

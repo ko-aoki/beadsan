@@ -30,13 +30,19 @@ public class DesignService {
 	private MstTagRepository mstTagRepo;
 	@Autowired
 	private TrnTagRepository trnTagRepo;
+	@Autowired
+	private TrnFavoriteDesignRepository trnFavoriteDesignRepo;
 
 	@Autowired
 	protected Mapper mapper;
-	
+
+	public DesignDto find(Integer id) {
+		return mapper.map(trnDesignRepo.findOne(id), DesignDto.class);
+	}
+
 	public Page<DesignDto> findDesignsByUserId(int userId, int curPage, int itemsPerPage) {
 
-		Page<TrnDesign> trnDesigns = trnDesignRepo.selectByMstUserIdOrderByUpdateDateAsc(new PageRequest(curPage - 1, itemsPerPage), userId);
+		Page<TrnDesign> trnDesigns = trnDesignRepo.selectByMstUserIdOrderByUpdateDateDesc(new PageRequest(curPage - 1, itemsPerPage), userId);
 		List<TrnDesign> contents = trnDesigns.getContent();
 		ArrayList<DesignDto> designs = new ArrayList<DesignDto>();
 		for (TrnDesign content : contents) {
@@ -52,21 +58,28 @@ public class DesignService {
 		return trnDesign;
 	}
 
-	public Page<DesignDto> findDesignsByDesignNameAndTag(String designName, String tag, int curPage, int itemsPerPage) {
+	public Page<DesignDto> findDesignsByDesignNameAndTag(int userId, String designName, String tag, int curPage, int itemsPerPage) {
 		Page<TrnDesign> trnDesigns =
-				trnDesignRepo.
-						findAll(
-								Specifications.where(
-										TrnDesignSpecification.nameContains(designName)
-								).and(
-										TrnDesignSpecification.tagContains(tag)
-								),
-								new PageRequest(curPage - 1, itemsPerPage)
-						);
+				trnDesignRepo.findAll(
+						Specifications.where(
+								TrnDesignSpecification.nameContains(designName)
+						).and(
+								TrnDesignSpecification.tagContains(tag)
+						),
+						new PageRequest(curPage - 1, itemsPerPage)
+				);
 		List<TrnDesign> contents = trnDesigns.getContent();
 		ArrayList<DesignDto> designs = new ArrayList<DesignDto>();
 		for (TrnDesign content : contents) {
 			DesignDto designDto = mapper.map(content, DesignDto.class);
+			if (trnFavoriteDesignRepo.selectByMstUserIdAndDesignId(userId, designDto.getDesignId()) != null ) {
+				designDto.setFavoriteOne(true);
+			} else {
+				designDto.setFavoriteOne(false);
+			}
+			designDto.setFavoriteCnt(
+					trnFavoriteDesignRepo.count(designDto.getDesignId())
+			);
 			designs.add(designDto);
 		}
 		PageImpl page = new PageImpl(designs, new PageRequest(curPage - 1, 1), trnDesigns.getTotalElements());

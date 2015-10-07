@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/bead")
-public class BeadRestController {
+public class DesignRestController {
 	
 	@Autowired
 	DesignService designService;
@@ -99,7 +99,8 @@ public class BeadRestController {
 								@RequestParam("curPage") int curPage,
 								@RequestParam("itemsPerPage") int itemsPerPage) {
 
-		Page<DesignDto> designs = designService.findDesignsByDesignNameAndTag(designName, tag, curPage, itemsPerPage);
+		Page<DesignDto> designs = designService.findDesignsByDesignNameAndTag(
+				userDetail.getUserInfo().getUserId(), designName, tag, curPage, itemsPerPage);
 
 		return designs;
 	}

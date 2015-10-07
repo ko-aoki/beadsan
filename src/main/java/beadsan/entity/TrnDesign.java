@@ -60,6 +60,9 @@ public class TrnDesign implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trnDesignId")
     @JsonIgnore
     private Collection<TrnTag> trnTagCollection;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trnDesignId")
+//    @JsonIgnore
+//    private Collection<TrnFavoriteDesign> trnFavoriteDesignCollection;
 
     public TrnDesign() {
     }
@@ -140,6 +143,14 @@ public class TrnDesign implements Serializable {
     public void setTrnTagCollection(Collection<TrnTag> trnTagCollection) {
         this.trnTagCollection = trnTagCollection;
     }
+
+//    public Collection<TrnFavoriteDesign> getTrnFavoriteDesignCollection() {
+//        return trnFavoriteDesignCollection;
+//    }
+//
+//    public void setTrnFavoriteDesignCollection(Collection<TrnFavoriteDesign> trnFavoriteDesignCollection) {
+//        this.trnFavoriteDesignCollection = trnFavoriteDesignCollection;
+//    }
 
     @Override
     public int hashCode() {
