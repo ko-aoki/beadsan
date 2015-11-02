@@ -42,6 +42,10 @@ angular.module('perlerbeadsApp').service('beadDataService', ['$window','beadServ
             return beadResource.find(cond).$promise;
         };
 
+        this.findFavorite = function (cond) {
+            return beadResource.findFavorite(cond).$promise;
+        };
+
         this.deleteData = function (name) {
             return beadResource.deleteByName({"designName": name}).$promise;
         };

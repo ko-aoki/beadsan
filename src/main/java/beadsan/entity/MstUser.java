@@ -7,7 +7,6 @@ package beadsan.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MstUser.findByVersionNo", query = "SELECT m FROM MstUser m WHERE m.versionNo = :versionNo"),
     @NamedQuery(name = "MstUser.findByInsertDate", query = "SELECT m FROM MstUser m WHERE m.insertDate = :insertDate"),
     @NamedQuery(name = "MstUser.findByUpdateDate", query = "SELECT m FROM MstUser m WHERE m.updateDate = :updateDate")})
-public class MstUser implements Serializable {
+public class MstUser extends AuditEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -46,15 +45,6 @@ public class MstUser implements Serializable {
     private String mailAddress;
     @Column(name = "nickname")
     private String nickname;
-    @Column(name = "version_no")
-    @Version
-    private Integer versionNo;
-    @Column(name = "insert_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date insertDate;
-    @Column(name = "update_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mstUserId")
     private Collection<TrnDesign> trnDesignCollection;
 
@@ -112,31 +102,7 @@ public class MstUser implements Serializable {
         this.nickname = nickname;
     }
 
-    public Integer getVersionNo() {
-        return versionNo;
-    }
-
-    public void setVersionNo(Integer versionNo) {
-        this.versionNo = versionNo;
-    }
-
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    @XmlTransient
+   @XmlTransient
     public Collection<TrnDesign> getTrnDesignCollection() {
         return trnDesignCollection;
     }

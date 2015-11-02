@@ -1,14 +1,14 @@
 /**
  * @ngdoc function
- * @name perlerbeadsApp.controller:FinderCtrl
+ * @name perlerbeadsApp.controller:FavoriteCtrl
  * @description
- * # FinderCtrl
+ * # FavoriteCtrl
  * Controller of the perlerbeadsApp
  */
 angular.module('perlerbeadsApp')
-  .controller('FinderCtrl',
-  ['$scope', '$modal', '$window', '$q', 'beadService', 'beadDataService', 'beadViewService', 'sharedStateService',
-    function ($scope, $modal, $window, $q, beadService, beadDataService, beadViewService, sharedStateService) {
+  .controller('FavoriteCtrl',
+  ['$scope', '$modal', '$window', '$q', 'beadService', 'favoriteDesignService', 'beadViewService', 'sharedStateService',
+    function ($scope, $modal, $window, $q, beadService, favoriteDesignService, beadViewService, sharedStateService) {
 
       /** 横１列に表示するデータサイズ */
       var itemsPerLine = Math.floor($window.document.body.offsetWidth / 150);
@@ -33,14 +33,13 @@ angular.module('perlerbeadsApp')
           $scope.foundRecs = null;
         }
         $scope.sharedState = sharedStateService.get("sharedState");
+        $scope.load();
       }
 
-      $scope.find = function(name, tag){
+      $scope.load = function(name, tag){
 
-        beadDataService.find(
+        favoriteDesignService.load(
           {
-            designName: name,
-            tag: tag,
             curPage: 1,
             itemsPerPage: itemsPerPage
           }
@@ -55,7 +54,6 @@ angular.module('perlerbeadsApp')
                     paletteCd: data.content[i].paletteCd,
                     data: beadViewService.convert(data.content[i].paletteCd,
                         data.content[i].design, true),
-                    authorNickname: data.content[i].authorNickname,
                     tags: data.content[i].tags,
                     favoriteCnt: data.content[i].favoriteCnt,
                     favoriteOne: data.content[i].favoriteOne,
@@ -68,15 +66,12 @@ angular.module('perlerbeadsApp')
                 };
                 $scope.foundRecs = foundRecs;
               }
-            },
-            function() {
-              $scope.message = "検索結果が200件を超えているため、表示できません。";
             }
         );
       };
 
       $scope.calcTop = function(top, idx) {
-        return top + Math.floor(idx / itemsPerLine) * 220;
+        return top + Math.floor(idx / itemsPerLine) * 180;
       };
 
       $scope.calcLeft = function(left, idx) {
@@ -84,10 +79,8 @@ angular.module('perlerbeadsApp')
       };
 
       $scope.pageChanged = function () {
-        beadDataService.find(
+        favoriteDesignService.load(
             {
-              designName: name,
-              tag: tag,
               curPage: $scope.page.currentPage,
               itemsPerPage: itemsPerPage
             }
@@ -118,10 +111,9 @@ angular.module('perlerbeadsApp')
                 paletteCd: rec.paletteCd,
                 data: beadViewService.convert(rec.paletteCd, rec.data, false),
                 tags: rec.tags,
-                authorNickname: rec.authorNickname,
                 favoriteCnt: rec.favoriteCnt,
                 favoriteOne: rec.favoriteOne
-              }
+              };
             }
           }
         });

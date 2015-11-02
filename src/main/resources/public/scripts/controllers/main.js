@@ -48,7 +48,7 @@ angular.module('perlerbeadsApp')
                     name: data.content[i].name,
                     paletteCd: data.content[i].paletteCd,
                     data: beadViewService.convert(data.content[i].paletteCd,
-                        data.content[i].design, true, i, itemsPerPage),
+                        data.content[i].design, true),
                     tags: data.content[i].tags
                   };
                 }
@@ -74,7 +74,7 @@ angular.module('perlerbeadsApp')
               var savedRecs = data.content;
               if (savedRecs !== undefined) {
                 for (var i = 0; i < savedRecs.length; i++) {
-                  savedRecs[i].data = beadViewService.convert(savedRecs[i].paletteCd, savedRecs[i].design, true, i, itemsPerPage);
+                  savedRecs[i].data = beadViewService.convert(savedRecs[i].paletteCd, savedRecs[i].design, true);
                 }
                 $scope.savedRecs = savedRecs;
               }

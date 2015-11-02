@@ -36,21 +36,13 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "TrnFavoriteDesign.findByInsertDate", query = "SELECT t FROM TrnFavoriteDesign t WHERE t.insertDate = :insertDate"),
         @NamedQuery(name = "TrnFavoriteDesign.findByUpdateDate", query = "SELECT t FROM TrnFavoriteDesign t WHERE t.updateDate = :updateDate")
 })
-public class TrnFavoriteDesign implements Serializable {
+public class TrnFavoriteDesign extends AuditEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "trn_favorite_design_id")
     private Integer trnFavoriteDesignId;
-    @Column(name = "version_no")
-    private Integer versionNo;
-    @Column(name = "insert_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date insertDate;
-    @Column(name = "update_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
     @JoinColumn(name = "mst_user_id", referencedColumnName = "mst_user_id")
     @ManyToOne(optional = false)
     private MstUser mstUserId;
@@ -71,30 +63,6 @@ public class TrnFavoriteDesign implements Serializable {
 
     public void setTrnFavoriteDesignId(Integer trnFavoriteDesignId) {
         this.trnFavoriteDesignId = trnFavoriteDesignId;
-    }
-
-    public Integer getVersionNo() {
-        return versionNo;
-    }
-
-    public void setVersionNo(Integer versionNo) {
-        this.versionNo = versionNo;
-    }
-
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public MstUser getMstUserId() {

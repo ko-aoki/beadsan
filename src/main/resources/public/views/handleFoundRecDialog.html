@@ -1,30 +1,30 @@
 <div>
   <script type="text/ng-template" id="handleFoundRecDialog.tmpl.html">
     <div class="modal-header">
-      <h4>検索結果</h4>
-    </div>
-    <div class="modal-body">
-
+      <div>
       <span class="label label-info">図案名</span>
-      <label style="word-wrap: break-word;">{{foundRec.name}}</label>
-
-      <div style="height: 130px;">
-        <div ng-repeat="foundBeads in foundRec.data">
-          <div ng-repeat="foundBead in foundBeads">
-            <div class="s_circle s_{{foundBead.color}}"
-                 style="position: absolute; top:{{foundBead.top + 70}}px; left:{{foundBead.left + 40}}px;">
-            </div>
-          </div>
-        </div>
+      <h4>{{foundRec.name}}</h4>
       </div>
-    </div>
-    <div class="modal-footer">
+      <div ng-if="foundRec.authorNickname">
+        <span class="label label-info">作者</span>
+        <h4>{{foundRec.authorNickname}}</h4>
+      </div>
       <div>
         <input type="button" class="btn btn-primary" value="お気に入りに追加" ng-click="addFavorite()" ng-if="!foundRec.favoriteOne"/>
         <input type="button" class="btn btn-danger" value="お気に入りを解除" ng-click="removeFavorite()" ng-if="foundRec.favoriteOne"/>
-      </div>
-      <div>
         <input type="button" class="btn btn-default" value="キャンセル" ng-click="cancel()"/>
+      </div>
+    </div>
+    <div class="modal-body">
+
+      <div style="height: 450px;">
+        <div ng-repeat="foundBeads in foundRec.data">
+          <div ng-repeat="foundBead in foundBeads">
+            <div class="circle {{foundBead.color}}"
+                 style="position: absolute; top:{{foundBead.top + 20}}px; left:{{foundBead.left + 40}}px;">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </script>

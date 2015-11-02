@@ -4,8 +4,8 @@ angular.module('perlerbeadsApp').service('beadViewService',['beadService',
     this.makePalette = function (paletteCd) {
       return beadService.getPalette(paletteCd).makePalette();
     };
-    this.convert = function (paletteCd, data, isThumbnail, idx, itemSize) {
-      return beadService.getPalette(paletteCd).convert(data, isThumbnail, idx, itemSize);
+    this.convert = function (paletteCd, data, isThumbnail) {
+      return beadService.getPalette(paletteCd).convert(data, isThumbnail);
     };
 
     this.countColors = function(beadsList) {

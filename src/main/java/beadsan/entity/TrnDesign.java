@@ -30,7 +30,7 @@ import java.util.Date;
     @NamedQuery(name = "TrnDesign.findByVersionNo", query = "SELECT t FROM TrnDesign t WHERE t.versionNo = :versionNo"),
     @NamedQuery(name = "TrnDesign.findByInsertDate", query = "SELECT t FROM TrnDesign t WHERE t.insertDate = :insertDate"),
     @NamedQuery(name = "TrnDesign.findByUpdateDate", query = "SELECT t FROM TrnDesign t WHERE t.updateDate = :updateDate")})
-public class TrnDesign implements Serializable {
+public class TrnDesign extends AuditEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -41,14 +41,6 @@ public class TrnDesign implements Serializable {
     private String name;
     @Column(name = "design", columnDefinition="TEXT")
     private String design;
-    @Column(name = "version_no")
-    private Integer versionNo;
-    @Column(name = "insert_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date insertDate;
-    @Column(name = "update_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
     @JoinColumn(name = "mst_palette_id", referencedColumnName = "mst_palette_id")
     @ManyToOne
     @JsonIgnore
@@ -93,30 +85,6 @@ public class TrnDesign implements Serializable {
 
     public void setDesign(String design) {
         this.design = design;
-    }
-
-    public Integer getVersionNo() {
-        return versionNo;
-    }
-
-    public void setVersionNo(Integer versionNo) {
-        this.versionNo = versionNo;
-    }
-
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public MstPalette getMstPaletteId() {

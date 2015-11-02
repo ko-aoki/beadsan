@@ -24,7 +24,6 @@ public class BeadsanAuthService implements UserDetailsService {
 //
 	@Override
 	public BeadsanUserDetails loadUserByUsername(String mailAddress) throws UsernameNotFoundException {
-System.out.println("============" + "mailAddress:" + mailAddress + "==========");
 
 		MstUser user = userRepo.findByMailAddress(mailAddress);
 		if (user != null) {

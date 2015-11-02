@@ -41,6 +41,11 @@ public class FavoriteDesignService {
         ArrayList<DesignDto> designs = new ArrayList<DesignDto>();
         for (TrnFavoriteDesign content : contents) {
             DesignDto designDto = mapper.map(content.getTrnDesignId(), DesignDto.class);
+            // ユーザIDが検索条件なので
+            designDto.setFavoriteOne(true);
+            designDto.setFavoriteCnt(
+                    trnFavoriteDesignRepo.count(designDto.getDesignId())
+            );
             designDto.setFavoriteId(content.getTrnFavoriteDesignId());
             designs.add(designDto);
         }

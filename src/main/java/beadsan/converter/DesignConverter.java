@@ -49,6 +49,7 @@ public class DesignConverter  implements CustomConverter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        dest.setAuthorNickname(source.getMstUserId().getNickname());
         Collection<TrnTag> trnTags = sourceObj.getTrnTagCollection();
         String[] tags = new String[trnTags.size()];
         int cnt = 0;

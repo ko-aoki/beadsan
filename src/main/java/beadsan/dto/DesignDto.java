@@ -41,6 +41,11 @@ public class DesignDto implements Serializable {
 	private String[][] design;
 
 	/**
+	 * ニックネーム
+	 */
+	private String authorNickname;
+
+	/**
 	 * お気に入りID(ログインユーザの)
 	 */
 	private Integer favoriteId;

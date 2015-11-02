@@ -1,15 +1,3 @@
-<form name="mainForm" novalidate>
-    <span>{{message}}</span>
-    <br/>
-    <label>名称で検索(前方一致)</label>
-    <input type="text" class="form-control" ng-model="cond.name" required/>
-    <br/>
-    <label>タグで検索</label>
-    <input type="text" class="form-control" ng-model="cond.tag" required/>
-    <br/>
-    <input type="button" class="btn btn-primary" value="検索" ng-click="find(cond.name, cond.tag)"/>
-</form>
-
 <div class="row col col-md-12">
 
     <pagination boundary-links="true" total-items="page.totalItems" ng-model="page.currentPage"
@@ -23,8 +11,6 @@
             <div style="position: absolute; top:{{calcTop(0, idx)}}px; left:{{calcLeft(0, idx)}}px; width: 130px; word-wrap: break-word;">
                 {{foundRec.name}}
                 <br/>
-                {{foundRec.authorNickname}}
-                <br/>
                 <span class="glyphicon glyphicon-star">
                     {{foundRec.favoriteCnt}}
                 </span>
@@ -32,7 +18,7 @@
             <div ng-repeat="beads in foundRec.data">
                 <div ng-repeat="bead in beads">
                     <div class="s_circle s_{{bead.color}}"
-                         style="position: absolute; top:{{calcTop(bead.top, idx) + 60}}px; left:{{calcLeft(bead.left, idx)}}px;">
+                         style="position: absolute; top:{{calcTop(bead.top, idx) + 40}}px; left:{{calcLeft(bead.left, idx)}}px;">
                     </div>
                 </div>
             </div>
@@ -49,5 +35,6 @@
             </div>
         </div>
     </div>
+    <div style="position: absolute; top:400px;"></div>
 </div>
 

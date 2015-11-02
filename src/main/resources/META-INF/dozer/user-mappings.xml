@@ -14,6 +14,22 @@
             <a>mstUserId</a>
             <b>userId</b>
         </field>
+        <field>
+            <a>mailAddress</a>
+            <b>mailAddress</b>
+        </field>
+        <field>
+            <a>firstName</a>
+            <b>firstName</b>
+        </field>
+        <field>
+            <a>lastName</a>
+            <b>lastName</b>
+        </field>
+        <field>
+            <a>nickname</a>
+            <b>nickname</b>
+        </field>
     </mapping>
     <!-- omitted -->
 </mappings>

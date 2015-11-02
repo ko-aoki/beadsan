@@ -58,6 +58,16 @@ public class DesignService {
 		return trnDesign;
 	}
 
+	public long countDesignsByDesignNameAndTag(String designName, String tag) {
+		return trnDesignRepo.count(
+				Specifications.where(
+						TrnDesignSpecification.nameContains(designName)
+				).and(
+						TrnDesignSpecification.tagContains(tag)
+				)
+		);
+	}
+
 	public Page<DesignDto> findDesignsByDesignNameAndTag(int userId, String designName, String tag, int curPage, int itemsPerPage) {
 		Page<TrnDesign> trnDesigns =
 				trnDesignRepo.findAll(

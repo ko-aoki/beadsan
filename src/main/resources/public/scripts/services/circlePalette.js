@@ -25,18 +25,14 @@ angular.module('palette').service('circlePalette',
     //this.thunmbnailTopOffset = 40;
     //this.thunmbnailRecordOffset = 150;
 
-    this.makePalette = function (isThumbnail, idx, itemSize) {
-      var diameter, circumference, topOffset, recordOffset, margin;
+    this.makePalette = function (isThumbnail) {
+      var diameter, circumference;
       var beads = new Array(this.coordinates.length);
       if (isThumbnail) {
-        //topOffset = this.thunmbnailTopOffset;
-        //recordOffset = this.thunmbnailRecordOffset * (idx % itemSize);
         for (diameter = 0; diameter < this.thunmbnailCoordinates.length; diameter++) {
           beads[diameter] = new Array(this.thunmbnailCoordinates[diameter].length);
           for (circumference = 0; circumference < this.thunmbnailCoordinates[diameter].length; circumference++) {
             beads[diameter][circumference] = {};
-            //beads[diameter][circumference].top = parseInt(this.thunmbnailCoordinates[diameter][circumference].top, 10) + topOffset;
-            //beads[diameter][circumference].left = parseInt(this.thunmbnailCoordinates[diameter][circumference].left, 10) + recordOffset;
             beads[diameter][circumference].top = parseInt(this.thunmbnailCoordinates[diameter][circumference].top, 10);
             beads[diameter][circumference].left = parseInt(this.thunmbnailCoordinates[diameter][circumference].left, 10);
             beads[diameter][circumference].color = 'deselect';
@@ -47,8 +43,8 @@ angular.module('palette').service('circlePalette',
           beads[diameter] = new Array(this.coordinates[diameter].length);
           for (circumference = 0; circumference < this.coordinates[diameter].length; circumference++) {
             beads[diameter][circumference] = {};
-            beads[diameter][circumference].top = this.coordinates[diameter][circumference].top;
-            beads[diameter][circumference].left = this.coordinates[diameter][circumference].left;
+            beads[diameter][circumference].top = parseInt(this.coordinates[diameter][circumference].top);
+            beads[diameter][circumference].left = parseInt(this.coordinates[diameter][circumference].left);
             beads[diameter][circumference].color = 'deselect';
           }
         }
@@ -56,15 +52,15 @@ angular.module('palette').service('circlePalette',
       return beads;
     };
 
-    this.makeThumbnailPalette = function (idx, itemSize) {
-      return this.makePalette(true, idx, itemSize);
+    this.makeThumbnailPalette = function () {
+      return this.makePalette(true);
     };
 
-    this.convert = function(data, isThumbnail, idx, itemSize) {
+    this.convert = function(data, isThumbnail) {
       var diameter , circumference;
       var convData = [];
       if (isThumbnail) {
-        convData = this.makeThumbnailPalette(idx, itemSize);
+        convData = this.makeThumbnailPalette();
       } else {
         convData = this.makePalette();
       }

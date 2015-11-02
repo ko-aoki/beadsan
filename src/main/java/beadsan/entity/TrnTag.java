@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TrnTag.findByVersionNo", query = "SELECT t FROM TrnTag t WHERE t.versionNo = :versionNo"),
     @NamedQuery(name = "TrnTag.findByInsertDate", query = "SELECT t FROM TrnTag t WHERE t.insertDate = :insertDate"),
     @NamedQuery(name = "TrnTag.findByUpdateDate", query = "SELECT t FROM TrnTag t WHERE t.updateDate = :updateDate")})
-public class TrnTag implements Serializable {
+public class TrnTag extends AuditEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,16 +43,6 @@ public class TrnTag implements Serializable {
     @Column(name = "trn_tag_id")
     private Integer trnTagId;
     @Basic(optional = false)
-    @Column(name = "version_no")
-    private int versionNo;
-    @Basic(optional = false)
-    @Column(name = "insert_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date insertDate;
-    @Basic(optional = false)
-    @Column(name = "update_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
     @JoinColumn(name = "mst_tag_id", referencedColumnName = "mst_tag_id")
     @ManyToOne(optional = false)
     private MstTag mstTagId;
@@ -69,9 +59,6 @@ public class TrnTag implements Serializable {
 
     public TrnTag(Integer trnTagId, int versionNo, Date insertDate, Date updateDate) {
         this.trnTagId = trnTagId;
-        this.versionNo = versionNo;
-        this.insertDate = insertDate;
-        this.updateDate = updateDate;
     }
 
     public Integer getTrnTagId() {
@@ -80,30 +67,6 @@ public class TrnTag implements Serializable {
 
     public void setTrnTagId(Integer trnTagId) {
         this.trnTagId = trnTagId;
-    }
-
-    public int getVersionNo() {
-        return versionNo;
-    }
-
-    public void setVersionNo(int versionNo) {
-        this.versionNo = versionNo;
-    }
-
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public MstTag getMstTagId() {

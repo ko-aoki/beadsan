@@ -1,6 +1,11 @@
 angular.module('perlerbeadsApp')
-    .controller('HeaderCtrl', ['$scope', '$modal', 'userResource', 'sharedStateService',
-        function ($scope, $modal, userResource, sharedStateService) {
+    .controller('HeaderCtrl', ['$scope', '$location', '$modal', 'userResource', 'sharedStateService',
+        function ($scope, $location, $modal, userResource, sharedStateService) {
+
+            $scope.isActive = function (viewLocation) {
+                return viewLocation === $location.path();
+            };
+
             $scope.loginDialog = function () {
                 var modalInstance = $modal.open({
                     size: 'sm',

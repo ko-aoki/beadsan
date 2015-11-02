@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MstTag.findByVersionNo", query = "SELECT m FROM MstTag m WHERE m.versionNo = :versionNo"),
     @NamedQuery(name = "MstTag.findByInsertDate", query = "SELECT m FROM MstTag m WHERE m.insertDate = :insertDate"),
     @NamedQuery(name = "MstTag.findByUpdateDate", query = "SELECT m FROM MstTag m WHERE m.updateDate = :updateDate")})
-public class MstTag implements Serializable {
+public class MstTag extends AuditEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,15 +48,6 @@ public class MstTag implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @Column(name = "version_no")
-    private int versionNo;
-    @Column(name = "insert_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date insertDate;
-    @Column(name = "update_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mstTagId")
     private Collection<TrnTag> trnTagCollection;
 
@@ -70,7 +61,6 @@ public class MstTag implements Serializable {
     public MstTag(Integer mstTagId, String name, int versionNo) {
         this.mstTagId = mstTagId;
         this.name = name;
-        this.versionNo = versionNo;
     }
 
     public Integer getMstTagId() {
@@ -87,30 +77,6 @@ public class MstTag implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getVersionNo() {
-        return versionNo;
-    }
-
-    public void setVersionNo(int versionNo) {
-        this.versionNo = versionNo;
-    }
-
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     @XmlTransient
