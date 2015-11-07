@@ -3,11 +3,23 @@
 server:
   context-path: /beadsan
 spring:
+  profiles:
+  active: dev
+spring:
+  profiles: dev
   application.name: beadsan
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:log4jdbc:postgresql://192.168.56.101:5432/devdb
     username: dev
     password: dev
+  jpa:
+      database: POSTGRESQL
+--
+spring:
+  profiles: heroku
+  application.name: beadsan
+  datasource:
+    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
   jpa:
       database: POSTGRESQL
