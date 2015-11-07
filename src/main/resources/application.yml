@@ -21,6 +21,6 @@ spring:
   profiles: heroku
   application.name: beadsan
   datasource:
-    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    driverClassName: org.postgresql.Driver
   jpa:
       database: POSTGRESQL
