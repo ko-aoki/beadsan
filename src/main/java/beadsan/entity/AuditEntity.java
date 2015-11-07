@@ -13,6 +13,7 @@ import java.util.Date;
 public class AuditEntity {
 
     @Column(name = "version_no")
+    @Version
     private Integer versionNo;
 
     @Column(name = "insert_date")

@@ -2,9 +2,6 @@ package beadsan.entity;
 
 import beadsan.dto.UserInfo;
 import beadsan.security.BeadsanUserDetails;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -21,6 +18,7 @@ public class AuditEntityListener {
     public void prePersist(AuditEntity entity) {
 
         entity.setInsertDate(new Date());
+        entity.setVersionNo(1);
         try {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             BeadsanUserDetails principal =
@@ -36,6 +34,7 @@ public class AuditEntityListener {
     public void preUpdate(AuditEntity entity) {
 
         entity.setUpdateDate(new Date());
+        entity.setVersionNo(entity.getVersionNo() + 1);
         try {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             BeadsanUserDetails principal =
