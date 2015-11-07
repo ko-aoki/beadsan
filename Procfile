@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/beadsan-1.0-SNAPSHOT.jar --server.port=$PORT --spring.profiles.active=heroku
+web: java $JAVA_OPTS -jar target/*.jar --server.port=$PORT --spring.profiles.active=heroku
