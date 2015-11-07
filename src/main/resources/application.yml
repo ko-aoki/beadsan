@@ -5,6 +5,7 @@ server:
 spring:
   profiles:
   active: dev
+---
 spring:
   profiles: dev
   application.name: beadsan
@@ -15,7 +16,7 @@ spring:
     password: dev
   jpa:
       database: POSTGRESQL
---
+---
 spring:
   profiles: heroku
   application.name: beadsan
