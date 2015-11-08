@@ -9,9 +9,9 @@
 
 <div class="row col col-md-12">
   <accordion close-others="oneAtATime" style="background-color: #d9edf7;">
-    <accordion-group heading="ほぞんしたずあんをみる" is-open="status.isFirstOpen"
+    <accordion-group heading="保存した図案をみる" is-open="status.isFirstOpen"
                      is-disabled="status.isFirstDisabled">
-      <p>タイトルをクリックでへんしゅうできます。</p>
+      <p>タイトルをクリックで編集できます。</p>
       <div id="saveDiv" class="col col-md-12" style="height:160px;">
         <div ng-include src="'./views/handleSavedRecDialog.html'"></div>
         <div ng-repeat="(idx, savedRec) in savedRecs" ng-click="handleSavedRec(savedRec)"
@@ -37,10 +37,10 @@
 <div class="row col col-md-12">
   <div class="panel panel-info">
     <div class="panel panel-heading">
-      いろをえらんでください
+      色を選んでください
     </div>
     <div class="panel panel-body">
-      <label>いまのいろ：</label>
+      <label>今の色：</label>
       <div class="circle {{color}}"  style="display: inline-block">
       </div>
       <div style="display: inline-block">
@@ -95,12 +95,12 @@
           <br/>
           <br/>
     -->
-    <input type="button" class="btn btn-primary" value="ほぞんする" ng-disabled="!sharedState.auth" ng-click="save()"/>
-    <input type="button" class="btn btn-warning" value="あたらしくつくる" ng-click="makeNewData()"/>
+    <input type="button" class="btn btn-primary" value="保存する" ng-disabled="!sharedState.auth" ng-click="save()"/>
+    <input type="button" class="btn btn-warning" value="新しく作る" ng-click="makeNewData()"/>
     <br/>
     <br/>
 
-    <label>ビーズのかず</label>
+    <label>ビーズの数</label>
     <ul>
       <div ng-repeat="(key, value)  in colors">
         <li>

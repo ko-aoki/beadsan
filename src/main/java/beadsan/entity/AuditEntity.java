@@ -24,15 +24,11 @@ public class AuditEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
-    @JoinColumn(name = "insert_user", referencedColumnName = "mst_user_id")
-    @ManyToOne
-    @JsonIgnore
-    private MstUser insertUser;
+    @Column(name = "insert_user")
+    private Integer insertUser;
 
-    @JoinColumn(name = "update_user", referencedColumnName = "mst_user_id")
-    @ManyToOne
-    @JsonIgnore
-    private MstUser updatetUser;
+    @Column(name = "update_user")
+    private Integer updatetUser;
 
     public Integer getVersionNo() {
         return versionNo;
@@ -58,19 +54,19 @@ public class AuditEntity {
         this.updateDate = updateDate;
     }
 
-    public MstUser getInsertUser() {
+    public Integer getInsertUser() {
         return insertUser;
     }
 
-    public void setInsertUser(MstUser insertUser) {
+    public void setInsertUser(Integer insertUser) {
         this.insertUser = insertUser;
     }
 
-    public MstUser getUpdatetUser() {
+    public Integer getUpdatetUser() {
         return updatetUser;
     }
 
-    public void setUpdatetUser(MstUser updatetUser) {
+    public void setUpdatetUser(Integer updatetUser) {
         this.updatetUser = updatetUser;
     }
 

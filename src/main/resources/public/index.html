@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>ビーズずあん</title>
+    <title>ビーズ図案</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -54,7 +54,7 @@
                       <input type="button" class="btn btn-info" style="margin-top: 8px;" value="ログアウト" ng-click="logout()"/>
                   </li>
                   <li ng-if="sharedState.auth">
-                      <div style="margin-top: 8px;" ng-cloak >{{sharedState.nickname}}さん</div>
+                      <div style="margin-top: 15px;" ng-cloak >{{sharedState.nickname}}さん</div>
                   </li>
                   <li ng-if="!sharedState.auth">
                       <input type="button" class="btn btn-warning" style="margin-top: 8px;" value="ユーザ登録" ng-click="userRegisterDialog()"/>

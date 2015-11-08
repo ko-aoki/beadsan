@@ -23,10 +23,10 @@ public class AuditEntityListener {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             BeadsanUserDetails principal =
                     (BeadsanUserDetails)securityContext.getAuthentication().getPrincipal();
-            UserInfo userInfo = principal.getUserInfo();
-            entity.setInsertUser(new MstUser(userInfo.getUserId()));
+            entity.setInsertUser(principal.getUserInfo().getUserId());
         } catch (Exception e) {
             // なにもしない
+            e.printStackTrace();
         }
     }
 
@@ -39,10 +39,10 @@ public class AuditEntityListener {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             BeadsanUserDetails principal =
                     (BeadsanUserDetails)securityContext.getAuthentication().getPrincipal();
-            UserInfo userInfo = principal.getUserInfo();
-            entity.setUpdatetUser(new MstUser(userInfo.getUserId()));
+            entity.setUpdatetUser(principal.getUserInfo().getUserId());
         } catch (Exception e) {
             // なにもしない
+            e.printStackTrace();
         }
     }
 }
