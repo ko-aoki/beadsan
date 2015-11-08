@@ -63,9 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .requireCsrfProtectionMatcher(csrfRequestMatcher)
                 .csrfTokenRepository(this.csrfTokenRepository())
-                ;
-//                .and()
-//                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);  //CSRFトークンチェック
+                .and()
+                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);  //CSRFトークンチェック
     }
 
     private CsrfTokenRepository csrfTokenRepository() {

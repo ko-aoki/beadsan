@@ -1,11 +1,4 @@
 ## YAML Template.
----
-server:
-  context-path: /beadsan
-spring:
-  profiles:
-  active: dev
----
 spring:
   profiles: dev
   application.name: beadsan
@@ -16,6 +9,8 @@ spring:
     password: dev
   jpa:
       database: POSTGRESQL
+server:
+  context-path: /beadsan
 ---
 spring:
   profiles: heroku
