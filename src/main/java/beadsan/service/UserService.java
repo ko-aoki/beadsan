@@ -55,6 +55,7 @@ public class UserService {
 			authResult = authManager.authenticate(request);
 			SecurityContextHolder.getContext().setAuthentication(authResult);
 			BeadsanUserDetails principal = (BeadsanUserDetails)authResult.getPrincipal();
+			headerDto.setMailAddress(principal.getUserInfo().getMailAddress());
 			headerDto.setNickname(principal.getUserInfo().getNickname());
 			headerDto.setAuth(true);
 
@@ -81,6 +82,42 @@ public class UserService {
 		mstUserRepo.save(mstUser);
 
 		outDto.setMessage("ユーザを登録しました。");
+		return outDto;
+	}
+
+	/**
+	 * パスワード更新処理を行います.
+	 * @return
+	 */
+	public UserDto updatePassword(UserDto userDto) {
+
+		UserDto outDto = mapper.map(userDto, UserDto.class);
+		MstUser target = mstUserRepo.findByMailAddress(userDto.getMailAddress());
+		if (!target.getPassword().equals(userDto.getOldPassword())) {
+			outDto.setMessage("旧パスワードが異なります。");
+			return outDto;
+		}
+		target.setPassword(userDto.getPassword());
+
+		mstUserRepo.save(target);
+
+		outDto.setMessage("ユーザ情報を更新しました。");
+		return outDto;
+	}
+
+	/**
+	 * ニックネーム更新処理を行います.
+	 * @return
+	 */
+	public UserDto updateNickname(UserDto userDto) {
+
+		UserDto outDto = mapper.map(userDto, UserDto.class);
+		MstUser target = mstUserRepo.findByMailAddress(userDto.getMailAddress());
+		target.setNickname(userDto.getNickname());
+
+		mstUserRepo.save(target);
+
+		outDto.setMessage("ユーザ情報を更新しました。");
 		return outDto;
 	}
 

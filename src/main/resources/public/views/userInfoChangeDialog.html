@@ -1,0 +1,57 @@
+<div>
+<script type="text/ng-template" id="userInfoChangeDialog.tmpl.html">
+    <div class="modal-header">
+            <h4>ユーザ情報変更</h4>
+    </div>
+    <div class="modal-body">
+        <span>{{userRegisterDto.message}}</span>
+        <span>{{userRegisterDto.errorMessage}}</span>
+        <span ng-show="passwordForm.password.$error.maxlength">パスワードは10文字以下です。</span>
+        <span ng-show="nicknameForm.nickname.$error.maxlength">ニックネームは20文字以下です。</span>
+        <br/>
+        <label>メールアドレス</label>
+        <br/>
+
+        <p>
+            {{userRegisterDto.mailAddress}}
+        </p>
+
+        <br/>
+
+        <form name="passwordForm" novalidate>
+            <label>旧パスワード</label> <span class="help-block">*必須です</span>
+            <input type="password" class="form-control" id="oldPassword" name="password"
+                   ng-model="userRegisterDto.oldPassword"
+                   ng-maxlength="10"
+                   required/>
+            <br/>
+            <label>パスワード</label> <span class="help-block">*必須です</span>
+            <input type="password" class="form-control" id="password" name="password"
+                   ng-model="userRegisterDto.password"
+                   ng-maxlength="10"
+                   required/>
+            <br/>
+            <label>パスワード(確認)</label> <span class="help-block">*必須です</span>
+            <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"
+                   ng-model="userRegisterDto.passwordConfirm"
+                   ng-maxlength="10"
+                   required/>
+            <br/>
+            <input type="button" class="btn btn-warning" value="パスワード変更" ng-click="changePassword()"
+                   ng-disabled="passwordForm.$invalid"/>
+        </form>
+        <br/>
+
+        <form name="nicknameForm" novalidate>
+            <label>ニックネーム</label>
+            <input type="text" class="form-control" id="nickname" name="nickname"
+                   ng-model="userRegisterDto.nickname" ng-maxlength="20"
+                   required/>
+            <br/>
+            <input type="button" class="btn btn-warning" value="ニックネーム変更" ng-click="changeNickname()"
+                   ng-disabled="nicknameForm.$invalid"/>
+            <input type="button" class="btn btn-default" value="cancel" ng-click="cancel()"/>
+        </form>
+    </div>
+</script>
+</div>

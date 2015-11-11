@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class HeaderDto {
 
+    private String mailAddress;
     private String nickname;
     private Boolean auth;
 

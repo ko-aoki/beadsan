@@ -16,10 +16,10 @@ public class UserDto implements Serializable{
 	@NotNull
 	@Size(min = 1, max = 50)
 	private String mailAddress;
-	@NotNull
+	@Size(min = 1, max = 10)
+	private String oldPassword;
 	@Size(min = 1, max = 10)
 	private String password;
-	@NotNull
 	@Size(min = 1, max = 20)
 	private String nickname;
 	private String message;

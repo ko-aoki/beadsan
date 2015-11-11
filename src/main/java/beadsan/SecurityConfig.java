@@ -1,10 +1,8 @@
 package beadsan;
 
-import beadsan.filter.CsrfHeaderFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -62,9 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .requireCsrfProtectionMatcher(csrfRequestMatcher)
-                .csrfTokenRepository(this.csrfTokenRepository())
-                .and()
-                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);  //CSRFトークンチェック
+                .csrfTokenRepository(this.csrfTokenRepository());
     }
 
     private CsrfTokenRepository csrfTokenRepository() {

@@ -1,5 +1,5 @@
 angular.module('perlerbeadsApp')
-    .controller('UserRegisterDialogCtrl', ['$scope', 'userResource', '$modalInstance', 'sharedStateService',
+    .controller('UserInfoChangeDialogCtrl', ['$scope', 'userResource', '$modalInstance', 'sharedStateService',
         function ($scope, userResource, $modalInstance, sharedStateService) {
 
             $scope.sharedState = sharedStateService.get("sharedState");
@@ -11,21 +11,35 @@ angular.module('perlerbeadsApp')
                                             nickname: $scope.sharedState.nickname
                                         };
             }
-
-            $scope.register = function () {
+            $scope.changePassword = function () {
                 if ($scope.userRegisterDto.password !==
-                        $scope.userRegisterDto.passwordConfirm) {
+                    $scope.userRegisterDto.passwordConfirm) {
                     $scope.userRegisterDto.errorMessage = "パスワードが一致しません";
                     return;
                 }
-                userResource.save(
+                userResource.changePassword(
                     {
                         mailAddress: $scope.userRegisterDto.mailAddress,
-                        password: $scope.userRegisterDto.password,
+                        oldPassword: $scope.userRegisterDto.oldPassword,
+                        password: $scope.userRegisterDto.password
+                    },
+                    function (data) {
+                        $scope.userRegisterDto = data;
+                    },
+                    function (res) {
+                        $scope.userRegisterDto = res.data;
+                    }
+                );
+            }
+
+            $scope.changeNickname = function () {
+                userResource.changeNickname(
+                    {
+                        mailAddress: $scope.userRegisterDto.mailAddress,
                         nickname: $scope.userRegisterDto.nickname
                     },
                     function (data) {
-                       $scope.userRegisterDto = data;
+                        $scope.userRegisterDto = data;
                     },
                     function (res) {
                         $scope.userRegisterDto = res.data;

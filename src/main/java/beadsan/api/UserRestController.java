@@ -3,12 +3,14 @@ package beadsan.api;
 import beadsan.dto.LoginDto;
 import beadsan.dto.PageDto;
 import beadsan.dto.UserDto;
+import beadsan.security.BeadsanUserDetails;
 import beadsan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +45,7 @@ public class UserRestController {
 				if ((cookie == null || token != null && !token.equals(cookie.getValue()))
 						&& (authentication != null && authentication.isAuthenticated())) {
 					cookie = new Cookie("XSRF-TOKEN", token);
-					cookie.setPath("/beadsan");
+					cookie.setPath("/");
 					response.addCookie(cookie);
 				}
 			}
@@ -63,7 +65,8 @@ public class UserRestController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	ResponseEntity<UserDto> registerUser(@Validated @RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
+	ResponseEntity<UserDto> registerUser(
+			@Validated @RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
 
 		UserDto outDto = userService.registerUser(userDto);
 
@@ -72,6 +75,34 @@ public class UserRestController {
 		} else {
 			return new ResponseEntity<>(outDto, null, HttpStatus.CREATED);
 		}
+	}
+
+	@RequestMapping(value = "password", method = RequestMethod.PUT)
+	ResponseEntity<UserDto> updatePassword(
+			@AuthenticationPrincipal BeadsanUserDetails userDetail,
+			@Validated @RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
+
+		if (!userDetail.getUserInfo().getMailAddress().equals(userDto.getMailAddress())) {
+			UserDto errorUserDto = new UserDto();
+			errorUserDto.setMessage("ログイン時と異なるメールアドレスです");
+			return new ResponseEntity<>(null, null, HttpStatus.NOT_ACCEPTABLE);
+		}
+		UserDto outDto = userService.updatePassword(userDto);
+		return new ResponseEntity<>(outDto, null, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "nickname", method = RequestMethod.PUT)
+	ResponseEntity<UserDto> updateNickname(
+			@AuthenticationPrincipal BeadsanUserDetails userDetail,
+			@Validated @RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
+
+		if (!userDetail.getUserInfo().getMailAddress().equals(userDto.getMailAddress())) {
+			UserDto errorUserDto = new UserDto();
+			errorUserDto.setMessage("ログイン時と異なるメールアドレスです");
+			return new ResponseEntity<>(null, null, HttpStatus.NOT_ACCEPTABLE);
+		}
+		UserDto outDto = userService.updateNickname(userDto);
+		return new ResponseEntity<>(outDto, null, HttpStatus.OK);
 	}
 
 }

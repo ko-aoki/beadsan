@@ -26,9 +26,19 @@ angular.module('perlerbeadsApp')
 
             $scope.userRegisterDialog = function () {
                 var modalInstance = $modal.open({
-//                    size: 'sm',
                     templateUrl: 'userRegisterDialog.tmpl.html',
                     controller: 'UserRegisterDialogCtrl'
+                });
+                modalInstance.result.then(function (data){
+                    $scope.sharedState = data;
+                    sharedStateService.put('sharedState', data);
+                });
+            };
+
+            $scope.userInfoChangeDialog = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: 'userInfoChangeDialog.tmpl.html',
+                    controller: 'UserInfoChangeDialogCtrl'
                 });
                 modalInstance.result.then(function (data){
                     $scope.sharedState = data;
