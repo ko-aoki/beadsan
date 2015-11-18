@@ -4,6 +4,7 @@ import beadsan.dto.DesignDto;
 import beadsan.entity.TrnDesign;
 import beadsan.security.BeadsanUserDetails;
 import beadsan.service.DesignService;
+import beadsan.service.FavoriteDesignService;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,9 @@ public class DesignRestController {
     DesignService designService;
 
     @Autowired
+    FavoriteDesignService favoriteDesignService;
+
+    @Autowired
     protected Mapper mapper;
 
     Logger logger = LoggerFactory.getLogger(DesignRestController.class);
@@ -37,6 +41,15 @@ public class DesignRestController {
                                @RequestParam("curPage") int curPage,
                                @RequestParam("itemsPerPage") int itemsPerPage) {
         Page<DesignDto> designs = designService.findDesignsByUserId(userDetail.getUserInfo().getUserId(),
+                curPage, itemsPerPage);
+
+        return designs;
+    }
+
+    @RequestMapping(value = "popularDesign", method = RequestMethod.GET)
+    Page<DesignDto> getPopularDesigns(@RequestParam("curPage") int curPage,
+                               @RequestParam("itemsPerPage") int itemsPerPage) {
+        Page<DesignDto> designs = favoriteDesignService.findPopularDesign(
                 curPage, itemsPerPage);
 
         return designs;

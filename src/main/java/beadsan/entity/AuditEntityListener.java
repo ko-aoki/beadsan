@@ -18,7 +18,6 @@ public class AuditEntityListener {
     public void prePersist(AuditEntity entity) {
 
         entity.setInsertDate(new Date());
-        entity.setVersionNo(1);
         try {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             BeadsanUserDetails principal =
@@ -26,7 +25,6 @@ public class AuditEntityListener {
             entity.setInsertUser(principal.getUserInfo().getUserId());
         } catch (Exception e) {
             // なにもしない
-            e.printStackTrace();
         }
     }
 
@@ -34,7 +32,6 @@ public class AuditEntityListener {
     public void preUpdate(AuditEntity entity) {
 
         entity.setUpdateDate(new Date());
-        entity.setVersionNo(entity.getVersionNo() + 1);
         try {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             BeadsanUserDetails principal =
@@ -42,7 +39,6 @@ public class AuditEntityListener {
             entity.setUpdatetUser(principal.getUserInfo().getUserId());
         } catch (Exception e) {
             // なにもしない
-            e.printStackTrace();
         }
     }
 }

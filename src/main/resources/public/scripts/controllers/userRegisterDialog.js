@@ -26,9 +26,13 @@ angular.module('perlerbeadsApp')
                     },
                     function (data) {
                        $scope.userRegisterDto = data;
+                        $scope.userRegisterDto.passwordConfirm
+                            = data.password;
                     },
                     function (res) {
                         $scope.userRegisterDto = res.data;
+                        $scope.userRegisterDto.passwordConfirm
+                            = res.data.password;
                     }
                 );
             }

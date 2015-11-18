@@ -1,5 +1,6 @@
 package beadsan.service;
 
+import beadsan.cqdto.DesignAndCountDto;
 import beadsan.dto.DesignDto;
 import beadsan.entity.MstUser;
 import beadsan.entity.TrnDesign;
@@ -83,5 +84,20 @@ public class FavoriteDesignService {
     public long countFavoriteDesigns(int designId) {
         return trnFavoriteDesignRepo.count(designId);
     }
+
+    public Page<DesignDto> findPopularDesign(int curPage, int itemsPerPage) {
+        Page<DesignAndCountDto> designAndCountDtos = trnFavoriteDesignRepo.selectGroupByTrnDesignId(
+                new PageRequest(curPage - 1, itemsPerPage));
+
+        List <DesignDto> DesignDtoList = new ArrayList<DesignDto>();
+        for (DesignAndCountDto designAndCountDto : designAndCountDtos.getContent()) {
+            DesignDto designDto = mapper.map(designAndCountDto.getTrnDesign(), DesignDto.class);
+            designDto.setFavoriteCnt(designAndCountDto.getFavoriteCount());
+            DesignDtoList.add(designDto);
+        }
+        PageImpl page = new PageImpl(DesignDtoList, new PageRequest(curPage - 1, 1), designAndCountDtos.getTotalElements());
+        return page;
+    }
+
 
 }

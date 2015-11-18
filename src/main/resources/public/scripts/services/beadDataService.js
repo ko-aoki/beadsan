@@ -38,6 +38,10 @@ angular.module('perlerbeadsApp').service('beadDataService', ['$window','beadServ
             return beadResource.get(page).$promise;
         };
 
+        this.loadPopularDesign = function (page) {
+            return beadResource.getPopularDesign(page).$promise;
+        };
+
         this.find = function (cond) {
             return beadResource.find(cond).$promise;
         };

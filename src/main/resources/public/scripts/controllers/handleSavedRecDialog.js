@@ -15,7 +15,7 @@ angular.module('perlerbeadsApp')
       };
 
       $scope.deleteData = function () {
-        if ($window.confirm('「' + savedRec.name + '」' + 'さくじょしますか？')) {
+        if ($window.confirm('「' + savedRec.name + '」' + '削除しますか？')) {
           beadDataService.deleteData(savedRec.name);
         }
         $modalInstance.close();

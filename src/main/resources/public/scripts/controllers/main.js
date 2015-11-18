@@ -132,7 +132,7 @@ angular.module('perlerbeadsApp')
 
         modalInstance.result.then(function (name){
           $scope.name = name;
-          load();
+          $scope.pageChanged();
           displayCurrent();
         });
       };
@@ -159,7 +159,7 @@ angular.module('perlerbeadsApp')
                   function (res) {
                     var isOverwritable = true;
                     if (res.result) {
-                      if (!$window.confirm('「' + designInfo.designName + '」' + ' おなじなまえがあります。うわがきしますか？')) {
+                      if (!$window.confirm('「' + designInfo.designName + '」' + ' 同じ名前があります。上書きしますか？')) {
                         isOverwritable = false;
                       }
                     }
@@ -188,7 +188,7 @@ angular.module('perlerbeadsApp')
         if (
             $scope.sharedState !== undefined
             && $scope.sharedState.auth
-            && $window.confirm( 'いまのずあんをほぞんしますか？')) {
+            && $window.confirm( '編集中の図案を保存しますか？')) {
           promise = $scope.save();
         }
 

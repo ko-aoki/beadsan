@@ -5,10 +5,10 @@
  */
 package beadsan.repository;
 
+import beadsan.cqdto.DesignAndCountDto;
 import beadsan.entity.TrnFavoriteDesign;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,4 +30,9 @@ public interface TrnFavoriteDesignRepository extends JpaRepository<TrnFavoriteDe
 
     @Query("select COUNT(t) from TrnFavoriteDesign t where t.trnDesignId.trnDesignId = :designId")
     long count(@Param("designId") int designId);
+
+    @Query("select NEW beadsan.cqdto.DesignAndCountDto(t.trnDesignId, count(t.trnDesignId.trnDesignId)) from TrnFavoriteDesign t" +
+            " group by t.trnDesignId order by count(t.trnDesignId.trnDesignId) desc")
+    Page<DesignAndCountDto> selectGroupByTrnDesignId(Pageable pageable);
+
 }

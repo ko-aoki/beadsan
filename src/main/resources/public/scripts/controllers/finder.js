@@ -32,8 +32,61 @@ angular.module('perlerbeadsApp')
                 || sharedStateService.get("sharedState").auth === undefined) {
           $scope.foundRecs = null;
         }
+        load();
         $scope.sharedState = sharedStateService.get("sharedState");
       }
+
+      function load() {
+        beadDataService.loadPopularDesign(
+            {
+              curPage: 1,
+              itemsPerPage: itemsPerPage
+            }
+        ).then(
+            function(data) {
+              if (data.content !== undefined) {
+                var popRecs = new Array(data.content.length);
+                for (var i = 0; i < data.content.length; i++) {
+                  popRecs[i] = {
+                    name: data.content[i].name,
+                    paletteCd: data.content[i].paletteCd,
+                    data: beadViewService.convert(data.content[i].paletteCd,
+                        data.content[i].design, true),
+                    authorNickname: data.content[i].authorNickname,
+                    favoriteCnt: data.content[i].favoriteCnt,
+                    tags: data.content[i].tags
+                  };
+                }
+                $scope.page = {
+                  itemsPerPage: itemsPerPage,
+                  totalItems: data.totalElements,
+                  currentPage: 1
+                };
+                $scope.popRecs = popRecs;
+              }
+            }
+        );
+      }
+
+      $scope.pageChanged = function () {
+        beadDataService.loadPopularDesign(
+            {
+              curPage: $scope.page.currentPage,
+              itemsPerPage: itemsPerPage
+            }
+        ).then(
+            function(data) {
+              var popRecs = data.content;
+              if (popRecs !== undefined) {
+                for (var i = 0; i < popRecs.length; i++) {
+                  popRecs[i].data = beadViewService.convert(popRecs[i].paletteCd, popRecs[i].design, true);
+                }
+                $scope.popRecs = popRecs;
+              }
+            }
+        );
+
+      };
 
       $scope.find = function(name, tag){
 

@@ -8,6 +8,10 @@ angular.module('perlerbeadsApp').factory('beadResource', ['$resource',
                 method: 'GET',
                 url: baseApi + 'designName/:designName'
             },
+            getPopularDesign: {
+                method: 'GET',
+                url: baseApi + 'popularDesign'
+            },
             find: {
                 method: 'GET',
                 url: baseApi + 'find'
