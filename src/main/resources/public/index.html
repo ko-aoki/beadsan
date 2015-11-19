@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="perlerbeadsApp" ng-cloak>
+  <body ng-app="perlerbeadsApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -35,8 +35,7 @@
                     </button>
 
                     <a class="navbar-brand" href="#/" style="font-weight: bolder;">パーラービーズ図案作成</a>
-                    <p class="navbar-text" ng-if="sharedState.auth">
-                        {{sharedState.nickname}}さん
+                    <p class="navbar-text" ng-show="sharedState.auth" ng-bind="(sharedState.nickname) + 'さん'">
                     </p>
 
                 </div>
