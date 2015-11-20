@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             private AntPathRequestMatcher[] requestMatchers = {
 //                    new AntPathRequestMatcher("/index.hml"),
                     new AntPathRequestMatcher("/api/user/login"),
-                    new AntPathRequestMatcher("/api/user")
+                    new AntPathRequestMatcher("/api/user"),
+                    new AntPathRequestMatcher("/api/user/auth")
             };
 
             @Override
@@ -54,7 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/views/**",
                         "/index.html",
                         "/api/user/login",
-                        "/api/user"
+                        "/api/user",
+                        "/api/user/auth"
                 ).permitAll()
                 .anyRequest().authenticated()   //上記にマッチしなければ未認証エラー
                 .and()

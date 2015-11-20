@@ -8,6 +8,10 @@
         <class-b>beadsan.dto.LoginDto</class-b>
     </mapping>
     <mapping>
+        <class-a>beadsan.dto.UserInfo</class-a>
+        <class-b>beadsan.dto.HeaderDto</class-b>
+    </mapping>
+    <mapping>
         <class-a>beadsan.entity.MstUser</class-a>
         <class-b>beadsan.dto.UserInfo</class-b>
         <field>

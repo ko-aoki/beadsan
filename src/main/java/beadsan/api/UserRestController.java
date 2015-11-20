@@ -1,10 +1,9 @@
 package beadsan.api;
 
-import beadsan.dto.LoginDto;
-import beadsan.dto.PageDto;
-import beadsan.dto.UserDto;
+import beadsan.dto.*;
 import beadsan.security.BeadsanUserDetails;
 import beadsan.service.UserService;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,9 @@ public class UserRestController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	protected Mapper mapper;
+
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	ResponseEntity<PageDto> login(@Validated @RequestBody LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
 
@@ -51,6 +53,28 @@ public class UserRestController {
 			}
 			return new ResponseEntity<>(pageDto, null, HttpStatus.OK);
 		} else {
+			return new ResponseEntity<>(pageDto, null, HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	@RequestMapping(value = "auth", method = RequestMethod.GET)
+	ResponseEntity<PageDto> isAuth(@AuthenticationPrincipal BeadsanUserDetails userDetail) {
+
+		PageDto pageDto = new PageDto();
+		if (userDetail != null) {
+			UserInfo userInfo = userDetail.getUserInfo();
+			HeaderDto headerDto = mapper.map(userInfo, HeaderDto.class);
+			headerDto.setAuth(true);
+			LoginDto loginDto = mapper.map(userInfo, LoginDto.class);
+			pageDto.setHeaderDto(headerDto);
+			pageDto.setLoginDto(loginDto);
+
+			return new ResponseEntity<>(pageDto, null, HttpStatus.OK);
+		} else {
+			HeaderDto headerDto =new HeaderDto();
+			headerDto.setAuth(false);
+			pageDto.setHeaderDto(headerDto);
+
 			return new ResponseEntity<>(pageDto, null, HttpStatus.UNAUTHORIZED);
 		}
 	}

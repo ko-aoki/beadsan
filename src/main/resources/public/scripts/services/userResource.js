@@ -11,6 +11,10 @@ angular.module('perlerbeadsApp').factory('userResource', ['$resource',
                 method: 'POST',
                 url: baseApi + 'logout'
             },
+            isAuth: {
+                method: 'GET',
+                url: baseApi + 'auth'
+            },
             changePassword: {
                 method: 'PUT',
                 url: baseApi + 'password'

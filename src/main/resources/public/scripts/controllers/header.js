@@ -2,6 +2,18 @@ angular.module('perlerbeadsApp')
     .controller('HeaderCtrl', ['$scope', '$location', '$modal', 'userResource', 'sharedStateService',
         function ($scope, $location, $modal, userResource, sharedStateService) {
 
+            $scope.init = function () {
+
+                userResource.isAuth().$promise.then(
+                    function (data) {
+                        $scope.sharedState = data.headerDto;
+                        sharedStateService.put('sharedState', data.headerDto);
+                    }
+                )
+            }
+
+            $scope.init();
+
             $scope.isActive = function (viewLocation) {
                 return viewLocation === $location.path();
             };
