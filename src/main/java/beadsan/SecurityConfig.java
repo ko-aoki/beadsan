@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(
+                        "/",
                         "/bower_components/**/*",
                         "/images/**",
                         "/scripts/**",

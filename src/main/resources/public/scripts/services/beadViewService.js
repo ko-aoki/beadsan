@@ -25,6 +25,117 @@ angular.module('perlerbeadsApp').service('beadViewService',['beadService',
         }
       }
       return colors;
-    }
+    };
 
+    this.applyColorPattern = function(imgData){
+
+      var beadData = this.makePalette("SQUARE");
+      for (var topIdx=0; topIdx < beadData.length; topIdx++){
+        for (var leftIdx=0; leftIdx < beadData[topIdx].length; leftIdx++){
+          // 色情報取得
+          var offset = (leftIdx + topIdx * 20) * 4;
+          var red = imgData[offset];
+          var green = imgData[offset + 1];
+          var blue = imgData[offset + 2];
+// alphaは未使用
+
+          var diff = 765;
+          for (var i=0; i < BEAD_COLORS.length; i++) {
+            var beadColor = BEAD_COLORS[i];
+            var redDiff =  Math.abs(red - beadColor.red);
+            var greenDiff =  Math.abs(green - beadColor.green);
+            var blueDiff =  Math.abs(blue - beadColor.blue);
+            if (diff > redDiff + greenDiff + blueDiff) {
+              diff = redDiff + greenDiff + blueDiff;
+              if (diff < 150) {
+                beadData[topIdx][leftIdx].color = beadColor.name;
+              }
+            }
+          }
+        }
+      }
+      return beadData;
+    };
+
+    var BEAD_COLORS = [
+      {
+        "name": "shiro",
+        "red": 255,
+        "green": 255,
+        "blue": 255
+      },
+      {
+        "name": "kuro",
+        "red": 0,
+        "green": 0,
+        "blue": 0
+      },
+      {
+        "name": "aka",
+        "red": 255,
+        "green": 0,
+        "blue": 0
+      },
+      {
+        "name": "ao",
+        "red": 0,
+        "green": 0,
+        "blue": 255
+      },
+      {
+        "name": "kiiro",
+        "red": 255,
+        "green": 255,
+        "blue": 0
+      },
+      {
+        "name": "midori",
+        "red": 0,
+        "green": 128,
+        "blue": 0
+      },
+      {
+        "name": "kimidori",
+        "red": 0,
+        "green": 255,
+        "blue": 0
+      },
+      {
+        "name": "apricot",
+        "red": 234,
+        "green": 211,
+        "blue": 165
+      },
+      {
+        "name": "cha",
+        "red": 189,
+        "green": 74,
+        "blue": 59
+      },
+      {
+        "name": "kogecha",
+        "red": 106,
+        "green": 66,
+        "blue": 69
+      },
+      {
+        "name": "haiiro",
+        "red": 128,
+        "green": 128,
+        "blue": 128
+      },
+      {
+        "name": "murasaki",
+        "red": 128,
+        "green": 0,
+        "blue": 128
+      },
+      {
+        "name": "pink",
+        "red": 255,
+        "green": 192,
+        "blue": 203
+      }
+
+    ];
   }]);

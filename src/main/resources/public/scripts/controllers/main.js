@@ -7,8 +7,8 @@
  */
 angular.module('perlerbeadsApp')
   .controller('MainCtrl',
-  ['$scope', '$modal', '$window', '$q', 'beadService', 'beadDataService', 'beadViewService', 'sharedStateService',
-    function ($scope, $modal, $window, $q, beadService, beadDataService, beadViewService, sharedStateService) {
+  ['$scope', '$modal', '$window', '$q', '$timeout', 'beadService', 'beadDataService', 'beadViewService', 'sharedStateService',
+    function ($scope, $modal, $window, $q, $timeout, beadService, beadDataService, beadViewService, sharedStateService) {
 
       /** 1ページに表示するデータサイズ */
       var itemsPerPage = Math.floor($window.document.body.offsetWidth / 150);
@@ -217,4 +217,59 @@ angular.module('perlerbeadsApp')
         }
       };
 
-    }]);
+      $scope.$watch(
+          function() {
+            return $scope.capturedFile;
+          }
+          , function() {
+            $scope.capture();
+          }, true);
+
+      $scope.capture = function () {
+
+        if ($scope.capturedFile === undefined) {
+          return;
+        }
+        var promise;
+        if (
+            $scope.sharedState !== undefined
+            && $scope.sharedState.auth
+            && $window.confirm( '編集中の図案を保存しますか？')) {
+          promise = $scope.save();
+        }
+
+        var toBeadData = function() {
+
+          // キャプチャ画像を変換
+          var imgElm = document.createElement('img');
+          imgElm.src = $scope.capturedFile;
+          imgElm.onload = function() {
+            $timeout(function () {
+              var cvs = $window.document.getElementById("converter");
+              var ctx = cvs.getContext("2d");
+              var img = new Image();
+              ctx.clearRect(0, 0, 20, 20);
+              // 縮小画像作成
+              ctx.drawImage(imgElm, 0, 0, 20, 20);
+              $scope.name = "";
+              $scope.paletteCd = "square";
+              $scope.beadsList = beadViewService.applyColorPattern(ctx.getImageData(0, 0, 20, 20).data);
+              $scope.colors = beadViewService.countColors($scope.beadsList);
+              $scope.tags = [];
+              beadDataService.currentSave($scope.name, $scope.paletteCd, $scope.beadsList, $scope.tags);
+            });
+
+          }
+        };
+        if (promise !== undefined) {
+          promise.then(
+              toBeadData,
+              toBeadData
+          );
+        } else {
+          toBeadData();
+        }
+
+      }
+
+}]);
