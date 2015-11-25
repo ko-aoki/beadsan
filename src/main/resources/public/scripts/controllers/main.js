@@ -252,7 +252,7 @@ angular.module('perlerbeadsApp')
               // 縮小画像作成
               ctx.drawImage(imgElm, 0, 0, 20, 20);
               $scope.name = "";
-              $scope.paletteCd = "square";
+              $scope.paletteCd = "SQUARE";
               $scope.beadsList = beadViewService.applyColorPattern(ctx.getImageData(0, 0, 20, 20).data);
               $scope.colors = beadViewService.countColors($scope.beadsList);
               $scope.tags = [];
