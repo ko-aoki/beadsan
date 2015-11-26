@@ -39,17 +39,15 @@ angular.module('perlerbeadsApp').service('beadViewService',['beadService',
           var blue = imgData[offset + 2];
 // alphaは未使用
 
-          var diff = 765;
+          var distance = 255 * 255;
           for (var i=0; i < BEAD_COLORS.length; i++) {
             var beadColor = BEAD_COLORS[i];
-            var redDiff =  Math.abs(red - beadColor.red);
-            var greenDiff =  Math.abs(green - beadColor.green);
-            var blueDiff =  Math.abs(blue - beadColor.blue);
-            if (diff > redDiff + greenDiff + blueDiff) {
-              diff = redDiff + greenDiff + blueDiff;
-              if (diff < 150) {
-                beadData[topIdx][leftIdx].color = beadColor.name;
-              }
+            var redDiff =  red - beadColor.red;
+            var greenDiff =  green - beadColor.green;
+            var blueDiff =  blue - beadColor.blue;
+            if (distance > redDiff * redDiff + greenDiff * greenDiff + blueDiff * blueDiff) {
+              distance = redDiff * redDiff + greenDiff * greenDiff + blueDiff * blueDiff;
+              beadData[topIdx][leftIdx].color = beadColor.name;
             }
           }
         }
