@@ -39,7 +39,7 @@ angular.module('perlerbeadsApp').service('beadViewService',['beadService',
           var blue = imgData[offset + 2];
 // alphaは未使用
 
-          var distance = 255 * 255;
+          var distance = 255 * 255 * 255;
           for (var i=0; i < BEAD_COLORS.length; i++) {
             var beadColor = BEAD_COLORS[i];
             var redDiff =  red - beadColor.red;
