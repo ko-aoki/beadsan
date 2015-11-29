@@ -45,8 +45,9 @@ angular.module('perlerbeadsApp').service('beadViewService',['beadService',
             var redDiff =  red - beadColor.red;
             var greenDiff =  green - beadColor.green;
             var blueDiff =  blue - beadColor.blue;
-            if (distance > redDiff * redDiff + greenDiff * greenDiff + blueDiff * blueDiff) {
-              distance = redDiff * redDiff + greenDiff * greenDiff + blueDiff * blueDiff;
+            var beadColorDistance = Math.pow(redDiff, 2) + Math.pow(greenDiff, 2) + Math.pow(blueDiff, 2);
+            if (distance > beadColorDistance) {
+              distance = beadColorDistance;
               beadData[topIdx][leftIdx].color = beadColor.name;
             }
           }

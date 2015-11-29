@@ -183,7 +183,7 @@ angular.module('perlerbeadsApp')
         return deferred.promise;
       };
 
-      $scope.makeNewData = function () {
+      $scope.makeNewDesign = function () {
         var promise;
         if (
             $scope.sharedState !== undefined
@@ -192,7 +192,7 @@ angular.module('perlerbeadsApp')
           promise = $scope.save();
         }
 
-        var makeNewDataFunc = function() {
+        var makeNewDesignFunc = function() {
           var modalInstance = $modal.open({
             size: 'sm',
             templateUrl: 'newPaletteDialog.tmpl.html',
@@ -209,11 +209,11 @@ angular.module('perlerbeadsApp')
         };
         if (promise !== undefined) {
           promise.then(
-              makeNewDataFunc,
-              makeNewDataFunc
+              makeNewDesignFunc,
+              makeNewDesignFunc
           );
         } else {
-          makeNewDataFunc();
+          makeNewDesignFunc();
         }
       };
 
@@ -241,7 +241,7 @@ angular.module('perlerbeadsApp')
         var toBeadData = function() {
 
           // キャプチャ画像を変換
-          var imgElm = document.createElement('img');
+          var imgElm = $window.document.createElement('img');
           imgElm.src = $scope.capturedFile;
           imgElm.onload = function() {
             $timeout(function () {
