@@ -122,7 +122,26 @@ public class DesignService {
 				} else {
 					trnTags.add(trnTag);
 				}
-
+			}
+			// タグの削除
+			ArrayList<TrnTag> deleteTags = new ArrayList<>();
+			int cnt = 0;
+			for (TrnTag existingTag : existingDesign.getTrnTagCollection()) {
+				for (TrnTag tag : design.getTrnTagCollection()) {
+					if (existingTag.getMstTagId().getMstTagId() == tag.getMstTagId().getMstTagId()) {
+						break;
+					}
+					cnt++;
+					if (cnt >= existingDesign.getTrnTagCollection().size()) {
+						deleteTags.add(existingTag);
+					}
+				}
+				if (design.getTrnTagCollection().size() == 0) {
+					deleteTags.add(existingTag);
+				}
+			}
+			for (TrnTag deleteTag : deleteTags) {
+				trnTagRepo.delete(deleteTag);
 			}
 			existingDesign.setTrnTagCollection(trnTags);
 			TrnDesign savedTrnDesign = trnDesignRepo.save(existingDesign);
