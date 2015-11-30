@@ -117,12 +117,12 @@ angular.module('perlerbeadsApp').service('beadViewService',['beadService',
         "green": 66,
         "blue": 69
       },
-      {
-        "name": "haiiro",
-        "red": 128,
-        "green": 128,
-        "blue": 128
-      },
+      //{
+      //  "name": "haiiro",
+      //  "red": 128,
+      //  "green": 128,
+      //  "blue": 128
+      //},
       {
         "name": "murasaki",
         "red": 128,
