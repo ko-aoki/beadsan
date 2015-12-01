@@ -38,6 +38,12 @@ angular.module('perlerbeadsApp').service('beadService',['squarePalette', 'circle
           return "ピンク";
         case "shiro":
           return "しろ";
+        case "odo":
+          return "おうどいろ";
+        case "komugi":
+          return "こむぎいろ";
+        case "creme":
+          return "クリーム";
         case "deselect":
           return "なし";
       }
