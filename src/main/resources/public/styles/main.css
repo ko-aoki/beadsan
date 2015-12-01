@@ -134,6 +134,15 @@ body {
 .shiro {
   background-image: url("../images/shiro.png")
 }
+.odo {
+  background-image: url("../images/odo.png")
+}
+.komugi {
+  background-image: url("../images/komugi.png")
+}
+.creme {
+  background-image: url("../images/creme.png")
+}
 
 .s_deselect {
   background-image: url("../images/s_deselect.png")
@@ -176,4 +185,13 @@ body {
 }
 .s_shiro {
   background-image: url("../images/s_shiro.png")
+}
+.s_odo {
+  background-image: url("../images/s_odo.png")
+}
+.s_komugi {
+  background-image: url("../images/s_komugi.png")
+}
+.s_creme {
+  background-image: url("../images/s_creme.png")
 }
