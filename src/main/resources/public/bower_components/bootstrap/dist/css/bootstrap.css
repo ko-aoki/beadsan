@@ -5747,7 +5747,7 @@ button.close {
           transform: translate(0, 0);
 }
 .modal-open .modal {
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 .modal-dialog {

@@ -160,7 +160,7 @@ angular.module('perlerbeadsApp')
 
       $scope.handleFoundRec = function (rec) {
         var modalInstance = $modal.open({
-          size: 'lg',
+//          size: 'lg',
           templateUrl: 'handleFoundRecDialog.tmpl.html',
           controller: 'HandleFoundRecDialogCtrl',
           resolve: {
