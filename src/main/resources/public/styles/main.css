@@ -81,12 +81,11 @@ body {
     border-bottom: 0;
   }
 }
-/* bootstrapを上書き
+/* bootstrapを上書き */
 .modal-open .modal {
-  overflow-x: auto;
+  overflow-x: scroll;
   overflow-y: auto;
 }
-*/
 
 .circle {
   width: 20px;
