@@ -44,6 +44,14 @@ angular.module('perlerbeadsApp').service('beadService',['squarePalette', 'circle
           return "こむぎいろ";
         case "creme":
           return "クリーム";
+        case "raspberry":
+          return "ラズベリー";
+        case "budo":
+          return "ぶどういろ";
+        case "aomurasaki":
+          return "あおむらさき";
+        case "uguisu":
+          return "うぐいすいろ";
         case "deselect":
           return "なし";
       }

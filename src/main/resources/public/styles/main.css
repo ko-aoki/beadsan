@@ -149,6 +149,18 @@ body {
 .creme {
   background-image: url("../images/creme.png")
 }
+.raspberry {
+  background-image: url("../images/raspberry.png")
+}
+.budo {
+  background-image: url("../images/budo.png")
+}
+.aomurasaki {
+  background-image: url("../images/aomurasaki.png")
+}
+.uguisu {
+  background-image: url("../images/uguisu.png")
+}
 
 .s_deselect {
   background-image: url("../images/s_deselect.png")
@@ -200,4 +212,16 @@ body {
 }
 .s_creme {
   background-image: url("../images/s_creme.png")
+}
+.s_raspberry {
+  background-image: url("../images/s_raspberry.png")
+}
+.s_budo {
+  background-image: url("../images/s_budo.png")
+}
+.s_aomurasaki {
+  background-image: url("../images/s_aomurasaki.png")
+}
+.s_uguisu {
+  background-image: url("../images/s_uguisu.png")
 }
