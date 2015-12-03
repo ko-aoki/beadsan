@@ -17,11 +17,13 @@
     </div>
     <div class="modal-body">
 
-      <div style="height: 450px;" style="background-color: white;">
-        <div ng-repeat="foundBeads in foundRec.data">
-          <div ng-repeat="foundBead in foundBeads">
-            <div class="circle {{foundBead.color}}"
-                 style="position: absolute; top:{{foundBead.top + 20}}px; left:{{foundBead.left + 40}}px;">
+      <div style="height: 450px;">
+        <div style="position: absolute; top:0; left:0; height: 420px; width: 420px; background-color: white;">
+          <div ng-repeat="foundBeads in foundRec.data">
+            <div ng-repeat="foundBead in foundBeads">
+              <div class="circle {{foundBead.color}}"
+                   style="position: absolute; top:{{foundBead.top + 20}}px; left:{{foundBead.left + 40}}px;">
+              </div>
             </div>
           </div>
         </div>
