@@ -166,10 +166,28 @@ angular.module('perlerbeadsApp').service('beadViewService',['beadService',
         "blue": 128
       },
       {
+        "name": "darkgray",
+        "red": 101,
+        "green": 107,
+        "blue": 104
+      },
+      {
         "name": "murasaki",
         "red": 128,
         "green": 0,
         "blue": 128
+      },
+      {
+        "name": "magenta",
+        "red": 220,
+        "green": 0,
+        "blue": 105
+      },
+      {
+        "name": "orange",
+        "red": 200,
+        "green": 62,
+        "blue": 31
       },
       {
         "name": "pink",

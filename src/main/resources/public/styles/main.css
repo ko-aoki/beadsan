@@ -161,6 +161,15 @@ body {
 .uguisu {
   background-image: url("../images/uguisu.png")
 }
+.darkgray {
+  background-image: url("../images/darkgray.png")
+}
+.magenta {
+  background-image: url("../images/magenta.png")
+}
+.orange {
+  background-image: url("../images/orange.png")
+}
 
 .s_deselect {
   background-image: url("../images/s_deselect.png")
@@ -224,4 +233,13 @@ body {
 }
 .s_uguisu {
   background-image: url("../images/s_uguisu.png")
+}
+.s_darkgray {
+  background-image: url("../images/s_darkgray.png")
+}
+.s_magenta {
+  background-image: url("../images/s_magenta.png")
+}
+.s_orange {
+  background-image: url("../images/s_orange.png")
 }

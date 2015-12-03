@@ -52,6 +52,12 @@ angular.module('perlerbeadsApp').service('beadService',['squarePalette', 'circle
           return "あおむらさき";
         case "uguisu":
           return "うぐいすいろ";
+        case "darkgray":
+          return "ダークグレイ";
+        case "magenta":
+          return "マゼンタ";
+        case "orange":
+          return "オレンジ";
         case "deselect":
           return "なし";
       }
